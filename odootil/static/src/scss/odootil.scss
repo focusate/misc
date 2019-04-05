@@ -1,0 +1,14 @@
+// Define attribute `colors` in kanban view using `secondary` value,
+// e.g. <progressbar field="kanban_state"
+//          colors="{'done': 'success', 'normal': 'secondary'}"/>
+// to display a missing tool-tip for counted regular records
+// (e.g. Unplanned Activities, Normal Tasks and etc.).
+// `gray('300')` is default kanban progressbar background color used
+// by Odoo.
+$secondary-color: gray('300');
+.bg-secondary-full {
+    background-color: $secondary-color;
+}
+.o_kanban_view .o_kanban_group {
+  @include o-kanban-css-filter(secondary, $secondary-color);
+}

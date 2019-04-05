@@ -1,0 +1,15 @@
+.o_odootil_div_table{
+    display: table;
+    width: 100%;
+}
+.o_odootil_div_table > div:first-child {
+  font-weight: bold;
+}
+.o_odootil_div_table > div {
+  display: table-row;
+}
+.o_odootil_div_table > div > div {
+  border: 1px solid #999999;
+  display: table-cell;
+  padding: 3px 10px;
+}
