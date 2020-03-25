@@ -1,5 +1,9 @@
 from odoo.tests import common
 
+MODELS_PATH = 'odoo.models'
+SQL_DB_PATH = 'odoo.sql_db'
+# TODO: update all modules to use these paths.
+
 
 def switch_record_currency(
         self, record, mode='over_limit', currency_fld='currency_id'):

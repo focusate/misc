@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Odoo Utilities",
-    'version': '12.0.2.15.0',
+    'version': '12.0.2.17.0',
     'summary': 'odoo, utilities, helper methods',
     'license': 'OEEL-1',
     'author': "Focusate",

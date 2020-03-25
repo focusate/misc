@@ -1,5 +1,6 @@
 from . import (
     odootil,
+    odootil_base_struct,
     odootil_bin_field,
     odootil_seq,
     odootil_hide_field,
@@ -7,6 +8,7 @@ from . import (
 )
 __all__ = [
     'odootil',
+    'odootil_base_struct',
     'odootil_bin_field',
     'odootil_seq',
     'odootil_hide_field',

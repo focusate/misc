@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* odootil
+#   * odootil
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-08 17:05+0000\n"
-"PO-Revision-Date: 2020-01-08 17:05+0000\n"
+"POT-Creation-Date: 2020-04-17 07:51+0000\n"
+"PO-Revision-Date: 2020-04-17 07:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,46 +16,70 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:644
+#: code:addons/odootil/models/odootil.py:669
 #, python-format
 msgid "%s is not in recordset"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:997
+#: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__active
+msgid "Active"
+msgstr "Aktyvus"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1038
 #, python-format
 msgid "Date From must be earlier than %sDate To."
 msgstr "Data nuo turi būti ankstesnė nei Data iki."
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__display_name
 msgid "Display Name"
 msgstr "Rodomas pavadinimas"
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__id
 msgid "ID"
 msgstr ""
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_base_struct____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_hide_field____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active____last_update
 msgid "Last Modified on"
 msgstr "Paskutinį kartą keista"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:764
+#: code:addons/odootil/models/odootil.py:789
 #, python-format
 msgid "Model '%s' not found."
 msgstr "Modelis '%s' nerastas."
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:395
+#: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__name
+msgid "Name"
+msgstr "Pavadinimas"
+
+#. module: odootil
+#: sql_constraint:odootil.base_struct:0
+msgid "Name must be unique!"
+msgstr "Pavadinimas turi būti unikalus!"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:420
 #, python-format
 msgid "New"
 msgstr ""
@@ -72,8 +96,18 @@ msgid "Odoo Utilities"
 msgstr ""
 
 #. module: odootil
+#: model:ir.model,name:odootil.model_odootil_base_struct
+msgid "Odootil Base Structure Mixin"
+msgstr ""
+
+#. module: odootil
 #: model:ir.model,name:odootil.model_odootil_bin_field
 msgid "Odootil Binary Field Mixin"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_odootil_hide_field
+msgid "Odootil Hide Field Mixin"
 msgstr ""
 
 #. module: odootil
@@ -82,43 +116,48 @@ msgid "Odootil Sequence Mixin"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:738
+#: model:ir.model,name:odootil.model_odootil_toggle_active
+msgid "Odootil Toggle Active"
+msgstr ""
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:763
 #, python-format
 msgid "Only single active_id is allowed"
 msgstr "Leidžiamas tik vienas active_id"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:725
+#: code:addons/odootil/models/odootil.py:750
 #, python-format
 msgid "Programming error: 'active_model' is missing in context"
 msgstr "Programavimo klaida: kontekste trūksta 'active_model'"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:733
+#: code:addons/odootil/models/odootil.py:758
 #, python-format
 msgid "Programming error: at least 'active_id' or 'active_ids' key must be present in context"
 msgstr "Programavimo klaida: bent 'active_id' arba 'active_ids' raktas turi būti kontekste"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1206
+#: code:addons/odootil/models/odootil.py:1262
 #, python-format
 msgid "These fields are required: %s"
 msgstr "Šie laukai yra privalomi: %s"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1163
+#: code:addons/odootil/models/odootil.py:1215
 #, python-format
 msgid "You have no access to set value on '%s' field. Model: '%s'"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:639
+#: code:addons/odootil/models/odootil.py:664
 #, python-format
 msgid "end index must be greater than start."
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:998
+#: code:addons/odootil/models/odootil.py:1039
 #, python-format
 msgid "or equal to "
 msgstr "arba lygi "

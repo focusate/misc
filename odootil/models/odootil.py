@@ -923,6 +923,9 @@ class Odootil(models.AbstractModel):
         If records are passed only, default act_window dict will be used
         with tree and form views.
 
+        Can set manual option, to not use any conditions and modify what
+        is manually specified.
+
         Default condition for using all views: need to be more than one
         record.
         Default condition for form view: need to be exactly one record.
@@ -946,6 +949,8 @@ class Odootil(models.AbstractModel):
                         recordset. For all views, need to use key
                         'views_all', for form, 'views_form'.
                         (default: {None})
+                    - manual (bool): whether to ignore any condition
+                        and use only specified options.
 
         Returns:
             Generated act_window dict
@@ -972,6 +977,25 @@ class Odootil(models.AbstractModel):
                 condi_form = conditions['views_form']
             return condi_all, condi_form
 
+        def handle_conditions():
+            condi_all, condi_form = get_conditions(
+                options.get('conditions', {})
+            )
+            if condi_all(records):
+                act_dict['domain'] = [('id', 'in', records.ids)]
+                return True
+            elif condi_form(records):
+                views = filter_views(act_dict['views'], ['form'])
+                act_dict.update(
+                    res_id=records.id,
+                    view_mode='form',
+                    views=views
+                )
+                return True
+            else:
+                act_dict['type'] = 'ir.actions.act_window_close'
+                return False
+
         if not options:
             options = {}
         if act_xml_id:
@@ -982,20 +1006,12 @@ class Odootil(models.AbstractModel):
         # Set custom vals on act_dict.
         act_dict.update(options.get('custom_vals', {}))
         condi_all, condi_form = get_conditions(options.get('conditions', {}))
-        if condi_all(records):
-            act_dict['domain'] = [('id', 'in', records.ids)]
-        elif condi_form(records):
-            views = filter_views(act_dict['views'], ['form'])
-            act_dict.update(
-                res_id=records.id,
-                view_mode='form',
-                views=views
-            )
-        else:
-            act_dict['type'] = 'ir.actions.act_window_close'
-            # Return here, to avoid any other updates that might come
-            # at the end of method.
-            return act_dict
+        if not options.get('manual'):
+            condi_res = handle_conditions()
+            if not condi_res:
+                # Return here, to avoid any other updates that might come
+                # at the end of method.
+                return act_dict
         if options.get('view_xml_ids_map'):
             view_xml_ids_map = options['view_xml_ids_map']
             self._update_act_window_views(act_dict['views'], view_xml_ids_map)
@@ -1093,16 +1109,27 @@ class Odootil(models.AbstractModel):
         def get_bom_cost():
             bom = self.env['mrp.bom'].sudo()._bom_find(product=product)
             if bom:
-                uom_ratio = bom.product_uom_id._compute_quantity(
-                    1.0, uom, round=False)
+                uom_ratio = uom._compute_quantity(
+                    1.0, bom.product_uom_id, round=False)
+                # BOM should always have some qty entered, but there is
+                # an issue and it is allowed to enter zero value.
+                # Issue is reported to Odoo.
                 if bom.product_qty and uom_ratio:
-                    factor = bom.product_qty / uom_ratio
-                    # Dividing by factor, because need unit price,
-                    # not whole price of BOM (it would be different
-                    # if quantity on BOM is different than one)
-                    price = self.env[
-                        'report.mrp.report_bom_structure']._get_price(
-                            bom, factor, product) / factor
+                    # Quantity which is requested is important, because
+                    # depending on quantity, BOM cost price might
+                    # variate.
+                    factor = options.get('quantity', 1.0) * uom_ratio
+                    # BOM Structure & Cost report already calculates all
+                    # needed values and we can reuse them.
+                    bom_data = self.env[
+                        'report.mrp.report_bom_structure']._get_bom(
+                            bom_id=bom.id, product_id=product, line_qty=factor)
+                    # We except UOM ratio when it is below 1.0,
+                    # because total is already counted for 1 UOM and
+                    # there is no need to do extra conversions.
+                    price = bom_data['total']
+                    if uom_ratio >= 1.0:
+                        price = price / bom_data['bom_qty'] * uom_ratio
                     # Its a dilemma here, because get_cost is
                     # supposed to return unconverted price, though
                     # to get correct price, need to specify
