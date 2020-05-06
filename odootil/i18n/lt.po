@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 07:51+0000\n"
-"PO-Revision-Date: 2020-04-17 07:51+0000\n"
+"POT-Creation-Date: 2020-05-07 10:10+0000\n"
+"PO-Revision-Date: 2020-05-07 10:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,27 @@ msgid "%s is not in recordset"
 msgstr ""
 
 #. module: odootil
+#: code:addons/odootil/models/odootil_year_field.py:32
+#, python-format
+msgid "%s is not valid year!"
+msgstr "%s nėra teisingi metai!"
+
+#. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__active
 msgid "Active"
 msgstr "Aktyvus"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1050
+#, python-format
+msgid "April"
+msgstr "Balandis"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1054
+#, python-format
+msgid "August"
+msgstr "Rugpjūtis"
 
 #. module: odootil
 #: code:addons/odootil/models/odootil.py:1038
@@ -33,40 +51,93 @@ msgid "Date From must be earlier than %sDate To."
 msgstr "Data nuo turi būti ankstesnė nei Data iki."
 
 #. module: odootil
+#: code:addons/odootil/models/odootil.py:1058
+#, python-format
+msgid "December"
+msgstr "Gruodis"
+
+#. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_month_field__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_year_field__display_name
 msgid "Display Name"
 msgstr "Rodomas pavadinimas"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1048
+#, python-format
+msgid "February"
+msgstr "Vasaris"
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_month_field__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_year_field__id
 msgid "ID"
 msgstr ""
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1047
+#, python-format
+msgid "January"
+msgstr "Sausis"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1053
+#, python-format
+msgid "July"
+msgstr "Liepa"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1052
+#, python-format
+msgid "June"
+msgstr "Birželis"
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_month_field____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_year_field____last_update
 msgid "Last Modified on"
 msgstr "Paskutinį kartą keista"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1049
+#, python-format
+msgid "March"
+msgstr "Kovas"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1051
+#, python-format
+msgid "May"
+msgstr "Gegužė"
 
 #. module: odootil
 #: code:addons/odootil/models/odootil.py:789
 #, python-format
 msgid "Model '%s' not found."
 msgstr "Modelis '%s' nerastas."
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_odootil_month_field__odootil_month
+msgid "Month"
+msgstr "Mėnuo"
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__name
@@ -85,10 +156,22 @@ msgid "New"
 msgstr ""
 
 #. module: odootil
+#: code:addons/odootil/models/odootil.py:1057
+#, python-format
+msgid "November"
+msgstr "Lapkritis"
+
+#. module: odootil
 #: code:addons/odootil/models/odootil_seq.py:46
 #, python-format
 msgid "Number must be unique for records without company selected."
 msgstr "Numeris turi būti unikalus įrašams be parinktos įmonės."
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1056
+#, python-format
+msgid "October"
+msgstr "Spalis"
 
 #. module: odootil
 #: model:ir.model,name:odootil.model_odootil
@@ -111,6 +194,11 @@ msgid "Odootil Hide Field Mixin"
 msgstr ""
 
 #. module: odootil
+#: model:ir.model,name:odootil.model_odootil_month_field
+msgid "Odootil Month Field Mixin"
+msgstr ""
+
+#. module: odootil
 #: model:ir.model,name:odootil.model_odootil_seq
 msgid "Odootil Sequence Mixin"
 msgstr ""
@@ -118,6 +206,11 @@ msgstr ""
 #. module: odootil
 #: model:ir.model,name:odootil.model_odootil_toggle_active
 msgid "Odootil Toggle Active"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_odootil_year_field
+msgid "Odootil Year Field Mixin"
 msgstr ""
 
 #. module: odootil
@@ -139,13 +232,24 @@ msgid "Programming error: at least 'active_id' or 'active_ids' key must be prese
 msgstr "Programavimo klaida: bent 'active_id' arba 'active_ids' raktas turi būti kontekste"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1262
+#: code:addons/odootil/models/odootil.py:1055
+#, python-format
+msgid "September"
+msgstr "Rugsėjis"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1281
 #, python-format
 msgid "These fields are required: %s"
 msgstr "Šie laukai yra privalomi: %s"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1215
+#: model:ir.model.fields,field_description:odootil.field_odootil_year_field__odootil_year
+msgid "Year"
+msgstr "Metai"
+
+#. module: odootil
+#: code:addons/odootil/models/odootil.py:1234
 #, python-format
 msgid "You have no access to set value on '%s' field. Model: '%s'"
 msgstr ""
