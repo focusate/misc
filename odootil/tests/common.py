@@ -215,7 +215,7 @@ class TestOdootilCommon(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         """Set up common data."""
-        super(TestOdootilCommon, cls).setUpClass()
+        super().setUpClass()
         cls.Odootil = cls.env['odootil']
         cls.company = cls.env.ref('base.main_company')
         cls.user_demo = cls.env.ref('base.user_demo')

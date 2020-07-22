@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * odootil
+#	* odootil
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-07 10:10+0000\n"
-"PO-Revision-Date: 2020-05-07 10:10+0000\n"
+"POT-Creation-Date: 2020-07-24 07:46+0000\n"
+"PO-Revision-Date: 2020-07-24 07:46+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: code:addons/odootil/models/odootil.py:669
 #, python-format
 msgid "%s is not in recordset"
-msgstr ""
+msgstr "%s nėra įrašų rinkinyje"
 
 #. module: odootil
 #: code:addons/odootil/models/odootil_year_field.py:32
@@ -45,6 +45,24 @@ msgid "August"
 msgstr "Rugpjūtis"
 
 #. module: odootil
+#: sql_constraint:item_cycle.test.week.container:0
+#: sql_constraint:odootil.item_cycle.container:0
+msgid "Both Start and End must be specified or not specified!"
+msgstr "Turi būti nurodyta tiek pradžia, tiek pabaiga arba nenurodytas nė vienas!"
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__create_uid
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__create_uid
+msgid "Created by"
+msgstr "Sukūrė"
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__create_date
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__create_date
+msgid "Created on"
+msgstr "Sukurta"
+
+#. module: odootil
 #: code:addons/odootil/models/odootil.py:1038
 #, python-format
 msgid "Date From must be earlier than %sDate To."
@@ -57,10 +75,14 @@ msgid "December"
 msgstr "Gruodis"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__display_name
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle__display_name
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle_container__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_month_field__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__display_name
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__display_name
@@ -69,21 +91,40 @@ msgid "Display Name"
 msgstr "Rodomas pavadinimas"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__odootil_item_cycle_end_id
+msgid "End Week"
+msgstr ""
+
+#. module: odootil
 #: code:addons/odootil/models/odootil.py:1048
 #, python-format
 msgid "February"
 msgstr "Vasaris"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__id
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__id
 #: model:ir.model.fields,field_description:odootil.field_odootil__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle__id
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle_container__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_month_field__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active__id
 #: model:ir.model.fields,field_description:odootil.field_odootil_year_field__id
 msgid "ID"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_item_cycle_test_week
+msgid "Item Cycle Test Week"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_item_cycle_test_week_container
+msgid "Item Cycle Test Week Container"
 msgstr ""
 
 #. module: odootil
@@ -105,16 +146,32 @@ msgid "June"
 msgstr "Birželis"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week____last_update
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_bin_field____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_hide_field____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle____last_update
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle_container____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_month_field____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_seq____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_toggle_active____last_update
 #: model:ir.model.fields,field_description:odootil.field_odootil_year_field____last_update
 msgid "Last Modified on"
 msgstr "Paskutinį kartą keista"
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__write_uid
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__write_uid
+msgid "Last Updated by"
+msgstr "Paskutinį kartą atnaujino"
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__write_date
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__write_date
+msgid "Last Updated on"
+msgstr "Paskutinį kartą atnaujinta"
 
 #. module: odootil
 #: code:addons/odootil/models/odootil.py:1049
@@ -140,6 +197,7 @@ msgid "Month"
 msgstr "Mėnuo"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__name
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__name
 msgid "Name"
 msgstr "Pavadinimas"
@@ -194,8 +252,28 @@ msgid "Odootil Hide Field Mixin"
 msgstr ""
 
 #. module: odootil
+#: model:ir.model,name:odootil.model_odootil_item_cycle_container
+msgid "Odootil Item Cycle Container Mixin"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_odootil_item_cycle
+msgid "Odootil Item Cycle Mixin"
+msgstr ""
+
+#. module: odootil
 #: model:ir.model,name:odootil.model_odootil_month_field
 msgid "Odootil Month Field Mixin"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_odootil_range_cycle_container
+msgid "Odootil Range Cycle Container Mixin"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_odootil_range_cycle
+msgid "Odootil Range Cycle Mixin"
 msgstr ""
 
 #. module: odootil
@@ -220,6 +298,12 @@ msgid "Only single active_id is allowed"
 msgstr "Leidžiamas tik vienas active_id"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week__position
+#: model:ir.model.fields,field_description:odootil.field_odootil_item_cycle__position
+msgid "Position"
+msgstr "Pozicija"
+
+#. module: odootil
 #: code:addons/odootil/models/odootil.py:750
 #, python-format
 msgid "Programming error: 'active_model' is missing in context"
@@ -232,16 +316,42 @@ msgid "Programming error: at least 'active_id' or 'active_ids' key must be prese
 msgstr "Programavimo klaida: bent 'active_id' arba 'active_ids' raktas turi būti kontekste"
 
 #. module: odootil
+#: model:ir.model,name:odootil.model_range_cycle_test_week
+msgid "Range Cycle Test Week"
+msgstr ""
+
+#. module: odootil
+#: model:ir.model,name:odootil.model_range_cycle_test_week_container
+msgid "Range Cycle Test Week Container"
+msgstr ""
+
+#. module: odootil
 #: code:addons/odootil/models/odootil.py:1055
 #, python-format
 msgid "September"
 msgstr "Rugsėjis"
 
 #. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__odootil_item_cycle_start_id
+msgid "Start Week"
+msgstr ""
+
+#. module: odootil
+#: sql_constraint:item_cycle.test.week:0
+#: sql_constraint:odootil.item_cycle:0
+msgid "The position must be unique !"
+msgstr "Pozicija privalo būti unikali !"
+
+#. module: odootil
 #: code:addons/odootil/models/odootil.py:1281
 #, python-format
 msgid "These fields are required: %s"
 msgstr "Šie laukai yra privalomi: %s"
+
+#. module: odootil
+#: model:ir.model.fields,field_description:odootil.field_item_cycle_test_week_container__odootil_item_cycle_ids
+msgid "Weeks Range"
+msgstr ""
 
 #. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil_year_field__odootil_year
@@ -252,13 +362,13 @@ msgstr "Metai"
 #: code:addons/odootil/models/odootil.py:1234
 #, python-format
 msgid "You have no access to set value on '%s' field. Model: '%s'"
-msgstr ""
+msgstr "Jūs neturite prieigos teisių, kad priskirti reikšmę '%s' laukui. Modelis : '%s'"
 
 #. module: odootil
 #: code:addons/odootil/models/odootil.py:664
 #, python-format
 msgid "end index must be greater than start."
-msgstr ""
+msgstr "pabaigos indeksas turi būti didesnis nei pradžios."
 
 #. module: odootil
 #: code:addons/odootil/models/odootil.py:1039

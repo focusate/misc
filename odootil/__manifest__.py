@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Odoo Utilities",
-    'version': '12.0.2.18.0',
+    'version': '12.0.2.19.0',
     'summary': 'odoo, utilities, helper methods',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -12,6 +12,9 @@
         'web'
     ],
     'external_dependencies': {'python': ['footil', 'num2words', 'yattag']},
-    'data': ['views/odootil.xml'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/odootil.xml'
+    ],
     'installable': True,
 }
