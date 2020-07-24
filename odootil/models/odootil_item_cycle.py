@@ -1,3 +1,4 @@
+import re
 from itertools import cycle
 
 from odoo import models, fields, api
@@ -28,6 +29,13 @@ class OdootilItemCycle(models.AbstractModel):
             'The position must be unique !'
         ),
     ]
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """Override to keep only numbers on name value."""
+        name = re.sub(r"\D", "", name)
+        return super().name_search(
+            name=name, args=args, operator=operator, limit=limit)
 
     @api.model
     def get_container_models_to_recompute(self):

@@ -638,6 +638,7 @@ class Odootil(models.AbstractModel):
         record,
         start=0,
         end=None,
+        msg=None,
             raise_if_not_found=True):
         """Get lowest zero-based index as record value in recordset.
 
@@ -649,6 +650,8 @@ class Odootil(models.AbstractModel):
                 in recordset.
             start (int): start index for recordset (default: {0})
             end (int): end index for recordset (default: {None})
+            msg (str): custom exception message to use if record is not
+                found inside recordset.
             raise_if_not_found (bool): raise ValidationError if record
                 is not in recordset (default: {True})
 
@@ -666,7 +669,9 @@ class Odootil(models.AbstractModel):
             if recordset[i] == record:
                 return i
         if raise_if_not_found:
-            raise ValidationError(_("%s is not in recordset") % record)
+            if not msg:
+                msg = _("%s is not in recordset") % record
+            raise ValidationError(msg)
         return -1
 
     @api.model

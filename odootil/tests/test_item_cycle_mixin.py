@@ -190,3 +190,21 @@ class TestItemCycleMixin(TestOdootilCommon):
             [(ITEM_CYCLE_CONTAINER_FIELD, 'in', self.week_2.id)]
         )
         self.assertFalse(container)
+
+    def test_17_search_cycle_test_week(self):
+        """Search with container field using name_search.
+
+        Case 1: numeric string.
+        Case 2: non numeric string.
+        Case 3: alphanumeric string.
+        """
+        # Case 1.
+        week_1_id = self.week_1.id
+        res = self.ItemCycleTestWeek.name_search('1', operator='=')
+        self.assertEqual(res[0][0], week_1_id)
+        # Case 2.
+        res = self.ItemCycleTestWeek.name_search('abcdf', operator='=')
+        self.assertFalse(res)
+        # Case 3.
+        res = self.ItemCycleTestWeek.name_search('w1bcs', operator='=')
+        self.assertEqual(res[0][0], week_1_id)
