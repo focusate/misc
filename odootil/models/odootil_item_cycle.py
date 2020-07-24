@@ -69,7 +69,7 @@ class OdootilItemCycleContainer(models.AbstractModel):
     that is of m2o type, has comodel_name for model that inherited
     from 'odootil.item_cycle', must be stored and use compute method
     name defined in ITEM_CYCLE_CONTAINER_COMPUTE. e.g:
-        odootil_item_cycle_ids = fields.Many2one(
+        odootil_item_cycle_ids = fields.Many2many(
             'concreate.item_cycle.model',
             string="My Name",
             store=True,
