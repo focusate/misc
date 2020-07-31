@@ -731,6 +731,64 @@ class Odootil(models.AbstractModel):
                 sorted_dummies, records_map, recordset._name)
         return recordset.sorted(key=key_func, reverse=reverse)
 
+    @api.model
+    def new_with_recs(
+        self,
+        records,
+        values=None,
+        ref=None,
+        included_fields=None,
+            excluded_fields=None):
+        """Return new virtual record using provided record values.
+
+        This is wrapper for `new` method to include existing record
+        values.
+
+        Args:
+            records (recordset): records to use in creating NewId
+                instances. If empty, acts same as calling `new`.
+            values (dict): extra values to use in update.
+            ref (any): reference to NewId. Only works for empty
+                recordset. Otherwise, ref is related record ID
+                (default: {None}).
+            included_fields (list): fields to be read from records. If
+                not set, will read all record fields (default: {None}).
+            excluded_fields (list): fields to be excluded when reading
+                records. If not set, will read all record fields. Has no
+                effect, if included_fields is specified.
+                (default: {None}).
+
+        Returns:
+            recordset with NewId.
+
+        """
+        def get_field_names():
+            if included_fields:
+                return included_fields
+            field_names = records._fields.keys()
+            if excluded_fields:
+                return [
+                    fname for fname in field_names if fname not in
+                    excluded_fields
+                ]
+            return field_names
+
+        if not values:
+            values = {}
+        if not records:
+            return records.new(values=values, ref=ref)
+        new_recs = self.env[records._name]
+        field_names = get_field_names()
+        for record in records:
+            record_vals = {}
+            # We can't use read method here, because it can mess up
+            # cached values, if record changes are not yet saved to
+            # database.
+            record_vals = {fname: record[fname] for fname in field_names}
+            vals = dict(record_vals, **values)
+            new_recs |= record.new(values=vals, ref=record.id)
+        return new_recs
+
     # Context helpers
 
     @api.model

@@ -12,6 +12,13 @@ ACCESS_METHOD_PREFIX = 'check_access_'
 TEST_ACCESS_METHOD_PREFIX = '_%s' % ACCESS_METHOD_PREFIX
 
 
+def _wrap_empty_iterable(objects):
+    """Wrap empty iterable, so it would be iterated at least once."""
+    if not objects:
+        return [objects]
+    return objects
+
+
 def switch_record_currency(
         self, record, mode='over_limit', currency_fld='currency_id'):
     """Change record (or related one) currency to other than company's.
@@ -59,7 +66,62 @@ class Dummy(object):
             setattr(self, k, v)
 
 
-class SavepointCaseAccess(common.SavepointCase):
+class TestBaseCommon(common.SavepointCase):
+    """Utility class for more convenient all purpose tests."""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up common data for all purpose tests."""
+        super().setUpClass()
+        # Models.
+        cls.IrModel = cls.env['ir.model']
+        cls.IrConfigParameter = cls.env['ir.config_parameter']
+        # Records.
+        cls.user_demo = cls.env.ref('base.user_demo')
+        cls.user_admin = cls.env.ref('base.user_admin')
+        cls.group_user = cls.env.ref('base.group_user')
+
+    def _get_model_id(self, model_name):
+        return self.IrModel._get(model_name).id
+
+
+class TestMailActivityCommon(TestBaseCommon):
+    """Utility class for more convenient mail activity tests."""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up common data for mail activity tests."""
+        super().setUpClass()
+        cls.MailActivity = cls.env['mail.activity']
+        cls.activity_type_mail = cls.env.ref('mail.mail_activity_data_email')
+        cls.activity_type_call = cls.env.ref('mail.mail_activity_data_call')
+        cls.activity_type_meeting = cls.env.ref(
+            'mail.mail_activity_data_meeting')
+        cls.activity_type_todo = cls.env.ref('mail.mail_activity_data_todo')
+
+    def _get_default_methods_for_activity_fields(self):
+        return {
+            'res_id': lambda r: r.id,
+            'res_model_id': lambda r: self._get_model_id(r._name),
+            'summary': lambda r: 'Dummy Summary',
+            'activity_type_id': lambda r: self.activity_type_todo.id,
+        }
+
+    def _prepare_activity(self, record, vals=None):
+        if not vals:
+            vals = {}
+        res = self._get_default_methods_for_activity_fields()
+        for key, default_method in res.items():
+            if key not in vals:
+                vals[key] = default_method(record)
+        return vals
+
+    def _create_activity(self, record, vals=None):
+        vals = self._prepare_activity(record, vals=vals)
+        return self.MailActivity.create(vals)
+
+
+class SavepointCaseAccess(TestBaseCommon):
     """Extend SavePointCase with access rights helpers."""
 
     # TODO: list all possible modes
@@ -128,7 +190,7 @@ class SavepointCaseAccess(common.SavepointCase):
             self, objects, access_type, user=None, no_modes=None):
         check_access_method = self._get_test_check_access_method(access_type)
         modes = self._get_modes(no_modes=no_modes)
-        for obj in objects:
+        for obj in _wrap_empty_iterable(objects):
             for mode in modes:
                 # Each time set different mode per check to fail.
                 with self.assertRaises(AccessError):
@@ -145,7 +207,7 @@ class SavepointCaseAccess(common.SavepointCase):
             self, objects, access_type, user=None, no_modes=None):
         check_access_method = self._get_test_check_access_method(access_type)
         modes = self._get_modes(no_modes=no_modes)
-        for obj in objects:
+        for obj in _wrap_empty_iterable(objects):
             try:
                 check_access_method(
                     obj,

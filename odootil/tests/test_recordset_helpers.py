@@ -18,6 +18,7 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         cls.partner_3.color = 3
         cls._order = 'color, id'
         cls._order_2 = 'color desc, id'
+        cls.new_rec_vals = {'name': 'dummy'}
 
     def test_01_get_recordset_index_1(self):
         """Get index for partner_1."""
@@ -155,3 +156,74 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         self.assertEqual(sorted_partners[2], partners_reversed_by_id_desc[0])
         self.assertEqual(sorted_partners[3], partners_reversed_by_id_desc[1])
         self.assertEqual(sorted_partners[4], partners_reversed_by_id_desc[2])
+
+    def test_08_new_with_recs(self):
+        """Get new record from empty record."""
+        new_rec = self.Odootil.new_with_recs(
+            self.ResPartner, values=dict(self.new_rec_vals), ref='my_ref')
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertEqual(new_rec.street, False)
+        self.assertEqual(new_rec.id.ref, 'my_ref')
+
+    def test_09_new_with_recs(self):
+        """Get new record from single record."""
+        new_rec = self.Odootil.new_with_recs(
+            self.partner_1, values=dict(self.new_rec_vals), ref='my_ref')
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertEqual(new_rec.street, self.partner_1.street)
+        self.assertEqual(new_rec.id.ref, self.partner_1.id)
+
+    def test_10_new_with_recs(self):
+        """Get new record from single record with exclusions."""
+        new_rec = self.Odootil.new_with_recs(
+            self.partner_1,
+            values=dict(self.new_rec_vals), excluded_fields=['street', 'city'])
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertFalse(new_rec.street)
+        self.assertFalse(new_rec.city)
+        self.assertEqual(new_rec.country_id, self.partner_1.country_id)
+
+    def test_11_new_with_recs(self):
+        """Get new record from single record with inclusions."""
+        new_rec = self.Odootil.new_with_recs(
+            self.partner_1,
+            values=dict(self.new_rec_vals), included_fields=['street', 'city'])
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertEqual(new_rec.street, self.partner_1.street)
+        self.assertEqual(new_rec.city, self.partner_1.city)
+        self.assertFalse(new_rec.country_id, self.partner_1.country_id)
+        self.assertFalse(new_rec.is_company, self.partner_1.is_company)
+
+    def test_12_new_with_recs(self):
+        """Get new record from single record with incl/excl."""
+        new_rec = self.Odootil.new_with_recs(
+            self.partner_1,
+            values=dict(self.new_rec_vals),
+            included_fields=['street', 'city'],
+            # Should be ignored.
+            excluded_fields=['city', 'country_id']
+        )
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertEqual(new_rec.street, self.partner_1.street)
+        self.assertEqual(new_rec.city, self.partner_1.city)
+        self.assertFalse(new_rec.country_id, self.partner_1.country_id)
+        self.assertFalse(new_rec.is_company, self.partner_1.is_company)
+
+    def test_13_new_with_recs(self):
+        """Get new records from multiple records."""
+        def test_fields(new_rec, partner):
+            self.assertEqual(new_rec.name, 'dummy')
+            self.assertEqual(new_rec.street, partner.street)
+            self.assertEqual(new_rec.street, partner.street)
+            self.assertEqual(new_rec.parent_id, partner.parent_id)
+            self.assertEqual(new_rec.child_ids, partner.child_ids)
+
+        # To make sure it has parent_id.
+        child = self.partner_2.child_ids[0]
+        recs = self.Odootil.new_with_recs(
+            (self.partner_1 | child), values=dict(self.new_rec_vals)
+        )
+        self.assertEqual(recs.mapped('name'), ['dummy', 'dummy'])
+        rec1, rec2 = (recs[0], recs[1])
+        test_fields(rec1, self.partner_1)
+        test_fields(rec2, child)
