@@ -17,6 +17,7 @@ from . import (
     test_orderby_helpers,
     test_access_helpers,
     test_view_helpers,
+    test_constraint_helpers,
     test_toggle_active,
     test_item_cycle_mixin,
 )
@@ -39,6 +40,7 @@ __all__ = [
     test_orderby_helpers,
     test_access_helpers,
     test_view_helpers,
+    test_constraint_helpers,
     test_toggle_active,
     test_item_cycle_mixin,
 ]

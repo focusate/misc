@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-24 07:46+0000\n"
-"PO-Revision-Date: 2020-07-24 07:46+0000\n"
+"POT-Creation-Date: 2020-09-14 15:05+0000\n"
+"PO-Revision-Date: 2020-09-14 15:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:669
+#: code:addons/odootil/models/odootil.py:674
 #, python-format
 msgid "%s is not in recordset"
 msgstr "%s nėra įrašų rinkinyje"
@@ -28,18 +28,24 @@ msgid "%s is not valid year!"
 msgstr "%s nėra teisingi metai!"
 
 #. module: odootil
+#: code:addons/odootil/models/odootil.py:1368
+#, python-format
+msgid "'%s' is not valid URL."
+msgstr "'%s' nėra teisingas komp. universalusis adresas."
+
+#. module: odootil
 #: model:ir.model.fields,field_description:odootil.field_odootil_base_struct__active
 msgid "Active"
 msgstr "Aktyvus"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1050
+#: code:addons/odootil/models/odootil.py:1114
 #, python-format
 msgid "April"
 msgstr "Balandis"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1054
+#: code:addons/odootil/models/odootil.py:1118
 #, python-format
 msgid "August"
 msgstr "Rugpjūtis"
@@ -63,13 +69,13 @@ msgid "Created on"
 msgstr "Sukurta"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1038
+#: code:addons/odootil/models/odootil.py:1102
 #, python-format
 msgid "Date From must be earlier than %sDate To."
 msgstr "Data nuo turi būti ankstesnė nei Data iki."
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1058
+#: code:addons/odootil/models/odootil.py:1122
 #, python-format
 msgid "December"
 msgstr "Gruodis"
@@ -96,7 +102,7 @@ msgid "End Week"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1048
+#: code:addons/odootil/models/odootil.py:1112
 #, python-format
 msgid "February"
 msgstr "Vasaris"
@@ -128,19 +134,19 @@ msgid "Item Cycle Test Week Container"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1047
+#: code:addons/odootil/models/odootil.py:1111
 #, python-format
 msgid "January"
 msgstr "Sausis"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1053
+#: code:addons/odootil/models/odootil.py:1117
 #, python-format
 msgid "July"
 msgstr "Liepa"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1052
+#: code:addons/odootil/models/odootil.py:1116
 #, python-format
 msgid "June"
 msgstr "Birželis"
@@ -174,19 +180,19 @@ msgid "Last Updated on"
 msgstr "Paskutinį kartą atnaujinta"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1049
+#: code:addons/odootil/models/odootil.py:1113
 #, python-format
 msgid "March"
 msgstr "Kovas"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1051
+#: code:addons/odootil/models/odootil.py:1115
 #, python-format
 msgid "May"
 msgstr "Gegužė"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:789
+#: code:addons/odootil/models/odootil.py:853
 #, python-format
 msgid "Model '%s' not found."
 msgstr "Modelis '%s' nerastas."
@@ -208,13 +214,13 @@ msgid "Name must be unique!"
 msgstr "Pavadinimas turi būti unikalus!"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:420
+#: code:addons/odootil/models/odootil.py:421
 #, python-format
 msgid "New"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1057
+#: code:addons/odootil/models/odootil.py:1121
 #, python-format
 msgid "November"
 msgstr "Lapkritis"
@@ -226,7 +232,7 @@ msgid "Number must be unique for records without company selected."
 msgstr "Numeris turi būti unikalus įrašams be parinktos įmonės."
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1056
+#: code:addons/odootil/models/odootil.py:1120
 #, python-format
 msgid "October"
 msgstr "Spalis"
@@ -267,16 +273,6 @@ msgid "Odootil Month Field Mixin"
 msgstr ""
 
 #. module: odootil
-#: model:ir.model,name:odootil.model_odootil_range_cycle_container
-msgid "Odootil Range Cycle Container Mixin"
-msgstr ""
-
-#. module: odootil
-#: model:ir.model,name:odootil.model_odootil_range_cycle
-msgid "Odootil Range Cycle Mixin"
-msgstr ""
-
-#. module: odootil
 #: model:ir.model,name:odootil.model_odootil_seq
 msgid "Odootil Sequence Mixin"
 msgstr ""
@@ -292,7 +288,7 @@ msgid "Odootil Year Field Mixin"
 msgstr ""
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:763
+#: code:addons/odootil/models/odootil.py:827
 #, python-format
 msgid "Only single active_id is allowed"
 msgstr "Leidžiamas tik vienas active_id"
@@ -304,29 +300,19 @@ msgid "Position"
 msgstr "Pozicija"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:750
+#: code:addons/odootil/models/odootil.py:814
 #, python-format
 msgid "Programming error: 'active_model' is missing in context"
 msgstr "Programavimo klaida: kontekste trūksta 'active_model'"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:758
+#: code:addons/odootil/models/odootil.py:822
 #, python-format
 msgid "Programming error: at least 'active_id' or 'active_ids' key must be present in context"
 msgstr "Programavimo klaida: bent 'active_id' arba 'active_ids' raktas turi būti kontekste"
 
 #. module: odootil
-#: model:ir.model,name:odootil.model_range_cycle_test_week
-msgid "Range Cycle Test Week"
-msgstr ""
-
-#. module: odootil
-#: model:ir.model,name:odootil.model_range_cycle_test_week_container
-msgid "Range Cycle Test Week Container"
-msgstr ""
-
-#. module: odootil
-#: code:addons/odootil/models/odootil.py:1055
+#: code:addons/odootil/models/odootil.py:1119
 #, python-format
 msgid "September"
 msgstr "Rugsėjis"
@@ -343,7 +329,7 @@ msgid "The position must be unique !"
 msgstr "Pozicija privalo būti unikali !"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1281
+#: code:addons/odootil/models/odootil.py:1345
 #, python-format
 msgid "These fields are required: %s"
 msgstr "Šie laukai yra privalomi: %s"
@@ -359,19 +345,19 @@ msgid "Year"
 msgstr "Metai"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1234
+#: code:addons/odootil/models/odootil.py:1298
 #, python-format
 msgid "You have no access to set value on '%s' field. Model: '%s'"
 msgstr "Jūs neturite prieigos teisių, kad priskirti reikšmę '%s' laukui. Modelis : '%s'"
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:664
+#: code:addons/odootil/models/odootil.py:668
 #, python-format
 msgid "end index must be greater than start."
 msgstr "pabaigos indeksas turi būti didesnis nei pradžios."
 
 #. module: odootil
-#: code:addons/odootil/models/odootil.py:1039
+#: code:addons/odootil/models/odootil.py:1103
 #, python-format
 msgid "or equal to "
 msgstr "arba lygi "

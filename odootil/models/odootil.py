@@ -6,6 +6,7 @@ from ast import literal_eval
 from num2words import num2words
 import operator
 import itertools
+import validators
 
 from odoo import models, api, fields, _, registry, SUPERUSER_ID
 from odoo.osv import expression
@@ -1344,3 +1345,24 @@ class Odootil(models.AbstractModel):
                     _("These fields are required: %s") %
                     ', '.join(field_labels))
         return True
+
+    # Other constraint helpers
+
+    @api.model
+    def check_url(self, url):
+        """Check URL validity.
+
+        Args:
+            url (str): url to check
+
+        Returns:
+            None
+
+        Raises:
+            ValidationError if not valid
+
+        """
+        # Using '' as default, to make sure False value is not passed,
+        # which cant be validated by validators.url.
+        if not validators.url(url or ''):
+            raise ValidationError(_("'%s' is not valid URL.") % url)

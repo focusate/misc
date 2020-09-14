@@ -1,22 +1,20 @@
 # Author: Andrius Laukavičius. Copyright: JSC Focusate.
 # See LICENSE file for full copyright and licensing details.
 {
-    'name': "Odoo Utilities",
-    'version': '12.0.2.21.0',
-    'summary': 'odoo, utilities, helper methods',
+    'name': "REST Client Demo",
+    'version': '12.0.1.0.0',
+    'summary': 'rest, client, manager, demo',
     'license': 'OEEL-1',
     'author': "Focusate",
     'website': "http://www.focusate.eu",
     'category': 'Extra Tools',
     'depends': [
-        'web'
+        'rest_client'
     ],
-    'external_dependencies': {
-        'python': ['footil', 'num2words', 'yattag', 'validators']
-    },
     'data': [
+        'security/rest_client_demo_groups.xml',
         'security/ir.model.access.csv',
-        'views/odootil.xml'
+        'security/test_models_security.xml',
     ],
     'installable': True,
 }
