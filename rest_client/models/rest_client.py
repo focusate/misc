@@ -38,6 +38,7 @@ class RestClientAuth(models.AbstractModel):
         [('draft', 'Not Confirmed'), ('confirmed', 'Confirmed')],
         default='draft',
         copy=False,
+        readonly=True,
         required=True)
 
     @api.model

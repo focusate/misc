@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="rest_client_auth_view_tree" model="ir.ui.view">
+        <field name="name">rest.client.auth.tree</field>
+        <field name="model">rest.client.auth</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="url"/>
+                <field name="auth_method"/>
+                <field name="username"/>
+                <field name="password" password="True"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="rest_client_auth_view_form" model="ir.ui.view">
+        <field name="name">rest.client.auth.form</field>
+        <field name="model">rest.client.auth</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_to_draft" string="Reset" type="object" states="confirmed"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group name="main">
+                        <group name="left">
+                            <field name="url"/>
+                            <field name="auth_method"/>
+                        </group>
+                        <group name="right">
+                            <field name="username" attrs="{'invisible': [('auth_method', '!=', 'password')]}"/>
+                            <field name="password" password="True" attrs="{'invisible': [('auth_method', '!=', 'password')]}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

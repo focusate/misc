@@ -1,0 +1,123 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* rest_client
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-18 11:15+0000\n"
+"PO-Revision-Date: 2020-09-18 11:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__auth_method
+msgid "Auth Method"
+msgstr "Autentifikavimo metodas"
+
+#. module: rest_client
+#: code:addons/rest_client/models/rest_client.py:62
+#, python-format
+msgid "Authentication record must be unique per company or can have one global authentication record."
+msgstr "Autentifikavimo įrašas privalo būti unikalus pagal įmonę arba gali turėti vieną globalų autentifikavimo įrašą."
+
+#. module: rest_client
+#: model:ir.model.fields,help:rest_client.field_rest_client_auth__url
+msgid "Base URL for endpoints"
+msgstr "Komp. universalusis adreso bazė galutiniam taškui"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__company_id
+msgid "Company"
+msgstr "Įmonė"
+
+#. module: rest_client
+#: model_terms:ir.ui.view,arch_db:rest_client.rest_client_auth_view_form
+msgid "Confirm"
+msgstr "Patvirtinti"
+
+#. module: rest_client
+#: selection:rest.client.auth,state:0
+msgid "Confirmed"
+msgstr "Patvirtinta"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__display_name
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_controller__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__id
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_controller__id
+msgid "ID"
+msgstr ""
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth____last_update
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_controller____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"
+
+#. module: rest_client
+#: code:addons/rest_client/models/rest_client.py:202
+#, python-format
+msgid "No Authentication object found to get base URL. Check Authentication objects configuration."
+msgstr "Nerastas autentifikavimo objektas, kad gauti komp. universalusis adreso bazę. Patikrinkit autentifikavimo objektų konfigūraciją."
+
+#. module: rest_client
+#: selection:rest.client.auth,auth_method:0
+msgid "None"
+msgstr "Joks"
+
+#. module: rest_client
+#: selection:rest.client.auth,state:0
+msgid "Not Confirmed"
+msgstr "Nepatvirtinta"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__password
+#: selection:rest.client.auth,auth_method:0
+msgid "Password"
+msgstr "Slaptažodis"
+
+#. module: rest_client
+#: code:addons/rest_client/models/rest_client.py:168
+#, python-format
+msgid "Programming error: endpoint and uri_item must satisfy XOR condition."
+msgstr "Programavimo klaida: endpoint ir uri_item privalo patenkinti XOR sąlygą."
+
+#. module: rest_client
+#: model:ir.model,name:rest_client.model_rest_client_auth
+msgid "REST Client Authentication"
+msgstr "REST kliento autentifikacija"
+
+#. module: rest_client
+#: model:ir.model,name:rest_client.model_rest_client_controller
+msgid "REST Client Controller"
+msgstr "REST kliento kontroleris"
+
+#. module: rest_client
+#: model_terms:ir.ui.view,arch_db:rest_client.rest_client_auth_view_form
+msgid "Reset"
+msgstr "Panaikinti patvirtinimą"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__state
+msgid "State"
+msgstr "Regionas"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__url
+msgid "URL"
+msgstr "Komp. universalusis adresas"
+
+#. module: rest_client
+#: model:ir.model.fields,field_description:rest_client.field_rest_client_auth__username
+msgid "Username"
+msgstr "Vartotojo vardas"

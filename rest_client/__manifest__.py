@@ -11,6 +11,9 @@
     'depends': [
         'odootil'
     ],
+    'data': [
+        'views/rest_client_auth_views.xml',
+    ],
     'external_dependencies': {'python': ['footil', 'mergedeep']},
     'installable': True,
 }
