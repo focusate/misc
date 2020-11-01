@@ -1,0 +1,11 @@
+*.pyc
+*~
+
+# Distribution / packaging
+.eggs/
+*.egg-info/
+build/
+dist/
+MANIFEST
+# mypy
+.mypy_cache/
