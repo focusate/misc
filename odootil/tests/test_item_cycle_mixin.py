@@ -111,13 +111,15 @@ class TestItemCycleMixin(TestOdootilCommon):
     def test_08_check_cycle_test_week_container_unset(self):
         """Try to unset only start week."""
         with self.assertRaises(IntegrityError):
-            self.container_1[ITEM_CYCLE_START_FIELD] = False
+            with self.cr.savepoint():
+                self.container_1[ITEM_CYCLE_START_FIELD] = False
 
     @mute_logger(SQL_DB_PATH)
     def test_09_check_cycle_test_week_container_unset(self):
         """Try to unset only end week."""
         with self.assertRaises(IntegrityError):
-            self.container_1[ITEM_CYCLE_END_FIELD] = False
+            with self.cr.savepoint():
+                self.container_1[ITEM_CYCLE_END_FIELD] = False
 
     def test_10_search_cycle_test_week(self):
         """Search for container with week 3 in range."""

@@ -143,7 +143,7 @@ class SavepointCaseAccess(TestBaseCommon):
         cls.user_admin = cls.env.ref('base.user_admin')
 
     def _get_check_access_method(self, obj, access_type, user):
-        obj = obj.sudo(user)
+        obj = obj.with_user(user)
         return getattr(obj, '%s%s' % (ACCESS_METHOD_PREFIX, access_type))
 
     def _check_access(
@@ -271,7 +271,7 @@ class SavepointCaseAccess(TestBaseCommon):
                 models, user=user, no_modes=modes_pass)
 
 
-class TestOdootilCommon(common.SavepointCase):
+class TestOdootilCommon(TestBaseCommon):
     """Common class for all odootil test cases."""
 
     @classmethod
@@ -280,9 +280,10 @@ class TestOdootilCommon(common.SavepointCase):
         super().setUpClass()
         cls.Odootil = cls.env['odootil']
         cls.company = cls.env.ref('base.main_company')
-        cls.user_demo = cls.env.ref('base.user_demo')
         cls.ResPartner = cls.env['res.partner']
+        # Wood Corner.
         cls.partner_1 = cls.env.ref('base.res_partner_1')
+        # Deco Addict.
         cls.partner_2 = cls.env.ref('base.res_partner_2')
         cls.partner_3 = cls.env.ref('base.res_partner_3')
         cls.partner_4 = cls.env.ref('base.res_partner_4')

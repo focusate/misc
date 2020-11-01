@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "REST Client",
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'summary': 'rest, client, manager',
     'license': 'OEEL-1',
     'author': "Focusate",

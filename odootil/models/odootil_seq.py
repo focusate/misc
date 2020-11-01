@@ -115,7 +115,6 @@ class OdootilSeq(models.AbstractModel):
         )
         return super(OdootilSeq, self).create(vals)
 
-    @api.multi
     def name_get(self):
         """Override to use custom name pattern."""
         pattern = self._odootil_seq_name_pattern

@@ -21,12 +21,12 @@ class OdootilYearField(models.AbstractModel):
 
     odootil_year = fields.Char("Year", size=4)
 
-    @api.one
     @api.constrains('odootil_year')
     def check_odootil_year(self):
         """Check if entered odootil_year field is valid."""
-        year = self.odootil_year
-        try:
-            to_date(year, fmt='%Y')
-        except ValueError:
-            raise ValidationError(_("%s is not valid year!") % year)
+        for rec in self:
+            year = rec.odootil_year
+            try:
+                to_date(year, fmt='%Y')
+            except ValueError:
+                raise ValidationError(_("%s is not valid year!") % year)

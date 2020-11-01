@@ -19,7 +19,7 @@ class TestGetSingletonRecord(TestOdootilCommon):
         self.assertNotEqual(record2, record3)
         # Get singleton record with new env, so it would be closed.
         record4 = None
-        with self.Odootil.get_environment() as env:
+        with self.env.get_environment() as env:
             record4 = env['odootil'].get_singleton_record((m, 2))
         record5 = self.Odootil.get_singleton_record((m, 2))
         # Expecting new record, because record4 cursor is closed.

@@ -32,17 +32,15 @@ class TestViewHelpers(TestOdootilCommon):
 
     def test_01_validate_form_required_fields(self):
         """Validate record with no required fields on form."""
-        self.assertTrue(self.Odootil.validate_form_required_fields(
-            self.test_partner))
+        self.assertTrue(self.test_partner.validate_form_required_fields())
 
     def test_02_validate_form_required_fields(self):
         """Validate record with required field on form."""
         # Enable required field on form, by loading test view.
         _load_test_partner_view(self.env.cr)
         with self.assertRaises(ValidationError):
-            self.Odootil.validate_form_required_fields(self.test_partner)
+            self.test_partner.validate_form_required_fields()
         # Make it non company to make sure required condition is not
         # applied anymore.
         self.test_partner.is_company = False
-        self.assertTrue(self.Odootil.validate_form_required_fields(
-            self.test_partner))
+        self.assertTrue(self.test_partner.validate_form_required_fields())

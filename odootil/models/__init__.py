@@ -1,4 +1,8 @@
 from . import (
+    api,
+    base,
+    datetime,
+    ir_config_parameter,
     odootil,
     odootil_base_struct,
     odootil_bin_field,
@@ -11,6 +15,10 @@ from . import (
     test_models,
 )
 __all__ = [
+    api,
+    base,
+    datetime,
+    ir_config_parameter,
     odootil,
     odootil_base_struct,
     odootil_bin_field,

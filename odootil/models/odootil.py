@@ -1,24 +1,15 @@
 import os
-from contextlib import contextmanager
-import collections
 import six
-from ast import literal_eval
 from num2words import num2words
 import operator
-import itertools
 import validators
 
-from odoo import models, api, fields, _, registry, SUPERUSER_ID
-from odoo.osv import expression
+from odoo import models, api, fields, _
 from odoo.tools.convert import convert_file
-from odoo.exceptions import ValidationError, UserError, AccessError
-# Might be better to give new name on import to avoid clashes?
-from odoo.tests.common import Form
+from odoo.exceptions import ValidationError, UserError
 
 from odoo.addons.base.models.ir_sequence import IrSequence
 
-NON_WRITABLE_KEYS = ['id']
-PSQL_DESC = 'desc'
 # Common constants.
 PRIORITY = [(1, 'Low'), (2, 'Normal'), (3, 'High')]
 DATE_FMT = '%Y-%m-%d'
@@ -26,78 +17,6 @@ DATETIME_FMT = '%Y-%m-%d %H:%M:%S'
 
 # Cache for singleton records.
 singleton_records = {}
-
-
-# TODO: move this to footil.
-class ItemDummy(object):
-    """Dummy class to create object with various attributes."""
-
-    def __init__(self, **kwargs):
-        """Set up attributes."""
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-
-    def __getitem__(self, key):
-        """Return attribute using key."""
-        return self.__dict__[key]
-
-    def __repr__(self):
-        """Return string with attributes map."""
-        return '%s(**%s)' % (self.__class__.__name__, self.__dict__)
-
-
-# TODO: might be better to have it on footil.
-class ReverseComparator:
-    """Class to allow reverse comparison for initialized object."""
-
-    def __init__(self, obj):
-        """Init object to be compared in reverse order."""
-        self.obj = obj
-
-    def __eq__(self, other):
-        """Check equality in reverse."""
-        return other.obj == self.obj
-
-    def __lt__(self, other):
-        """Check less than in reverse."""
-        return other.obj < self.obj
-
-
-class SortedNewId(models.NewId):
-    """Subclass for NewId to make it sortable with real record.
-
-    Comparing is done in three ways:
-        - Both have db_id. Comparing db_id.
-        - Only one has db_id. Less than is the one with db_id.
-        - None have db_id. Comparing with pos (position).
-    """
-
-    id_iter = itertools.count()
-    __slots__ = ('pos', 'db_id', '_pseudo_id')
-
-    def __init__(self, ref=None, pos=0, db_id=0):
-        """Override to include original position in recordset."""
-        super().__init__(ref=ref)
-        self.pos = pos
-        self.db_id = db_id
-        self._pseudo_id = next(self.id_iter)
-
-    def __lt__(self, other):
-        """Compare int or other SortedNewId object."""
-        if self.db_id and other.db_id:
-            return self.db_id < other.db_id
-        # The one with db_id is less than without db_id.
-        if not self.db_id and other.db_id:
-            return False
-        if self.db_id and not other.db_id:
-            return True
-        # None have db_id. Comparing with position.
-        return self.pos < other.pos
-
-    def __repr__(self):
-        """Return reproducible object in string."""
-        class_name = self.__class__.__name__
-        return '%s(db_id=%s, pos=%s)' % (class_name, self.db_id, self.pos)
 
 
 class Interpolation(object):
@@ -133,85 +52,14 @@ class Odootil(models.AbstractModel):
     _name = 'odootil'
     _description = 'Odoo Utilities'
 
-    # Search/check helpers.
+    # Check helpers.
 
-    @api.model
-    def get_name_search_domain(
-        self,
-        name,
-        keys,
-        leaf_conditions=None,
-        args=None,
-            operator='ilike'):
-        """Prepare domain to be used for name_search with custom keys.
-
-        keys (path to field in object) argument is used to create
-        domain leafs separated by OR operator.
-
-        Args:
-            name (str): search value.
-            keys (list): list of string keys specifying left operand.
-            leaf_conditions (dict): specify condition for name argument
-                for specific key. key is key from keys arg and value is
-                check function that takes search value as argument.
-                (default: {None})
-            args (list): Optional argument to append to domain after
-                domain is created (default: {None})
-            operator (str): operator that will be used in all domain
-                leafs. (default: {'ilike'})
-
-        Returns:
-            name_search
-            list
-
-        """
-        def check_key(key):
-            condition = leaf_conditions.get(key)
-            # Can pass if there is no condition, or condition is
-            # specified.
-            return not condition or condition(name)
-
-        args = list(args or [])
-        if not leaf_conditions:
-            leaf_conditions = {}
-        domains = [[(k, operator, name)] for k in keys if check_key(k)]
-        # Convert little domains into full domain separating
-        # it with OR.
-        domain = expression.OR(domains)
-        # Add extra args.
-        return expression.AND([domain, args])
-
-    def name_search_multi_leaf(
-        self,
-        model_name,
-        name,
-        keys,
-        leaf_conditions=None,
-        args=None,
-        operator='ilike',
-        limit=100,
-            name_get_uid=None):
-        """Search name with multiple leafs separated by OR operator.
-
-        This is wrapper for get_name_search_domain with native
-        _name_search method implementation.
-
-        For arguments related with get_name_search_domain, see its
-        docstring.
-        """
-        domain = self.env['odootil'].get_name_search_domain(
-            name,
-            keys,
-            leaf_conditions=leaf_conditions,
-            args=args,
-            operator=operator
-        )
-        uid = name_get_uid or self._uid
-        Model = self.env[model_name]
-        ids = Model._search(domain, limit=limit, access_rights_uid=uid)
-        recs = Model.browse(ids)
-        return models.lazy_name_get(recs.sudo(uid))
-
+    # TODO: update translations after module is finished being migrated.
+    # TODO: rename to something like find_dupes/find_dupes_count (where
+    # count method could be used for just count search.)
+    # TODO: refactor to again use full domain instead of one value and
+    # field name.
+    # TODO: refactor this once related modules are being migrated.
     def check_field_unique(
         self,
         Model,
@@ -283,6 +131,8 @@ class Odootil(models.AbstractModel):
         domain = get_domain(options)
         # Using sudo() because regular user might not have access to
         # all objects. Searching among archived objects too.
+        # FIXME: sudo: prevent user from getting to records he has no
+        # access to.
         return Model.with_context(active_test=False).sudo().search(
             domain, count=count)
 
@@ -380,10 +230,10 @@ class Odootil(models.AbstractModel):
 
         """
         if code:
-            ctx = dict(self._context)
+            IrSequence = self.env['ir.sequence']
             if company_id:
-                ctx['force_company'] = company_id
-            return self.env['ir.sequence'].with_context(ctx).next_by_code(code)
+                return IrSequence.with_company(company_id).next_by_code(code)
+            return IrSequence.next_by_code(code)
         if sequence:
             return sequence.next_by_id()
 
@@ -423,82 +273,6 @@ class Odootil(models.AbstractModel):
                 code=code, sequence=sequence, company_id=company_id)
             vals[key] = seq_number or default
 
-    # Selection field helpers.
-
-    @api.model
-    def get_selection_map(self, record, field_key):
-        """Return OrderedDict selection mapping for record field.
-
-        Args:
-            record (recordset): record selection field is called on.
-            field_key (str): selection field name
-        Returns:
-            OrderedDict: selection mapping in OrderedDict form.
-        """
-        return collections.OrderedDict(record._fields[field_key].selection)
-
-    @api.model
-    def get_selection_label(self, record, field_key):
-        """Return Label of current selection field value.
-
-        If selection value is falsy, returns empty string. This might
-        return unexpected results if one of the selection field values
-        is falsy value. It is good practice to specify only truthy
-        values for selection values.
-
-        Args:
-            record (recordset): record selection field is called on
-            field_key (str): selection field name
-
-        Returns:
-            str: label of current selection field value.
-
-        """
-        val = record[field_key]
-        if not val:
-            return ''
-        selection_map = self.get_selection_map(record, field_key)
-        return selection_map[val]
-
-    # ir.config_parameter helpers.
-
-    @api.model
-    def get_param_eval(self, key, default=False, eval_fun=literal_eval):
-        """Retrieve the value for a given key and convert it.
-
-        Value is retrieved using `get_param` method. If eval_fun is
-        provided, value is then converted using that function. Otherwise
-        no conversion is done.
-        Args:
-            key (str): The key of the parameter value to retrieve.
-            default: default value if parameter is missing (
-                default: {False}).
-            eval_fun: function to convert retrieved value (default:
-                {literal_eval}).
-
-        Returns:
-            type converted using eval_fun or str if no conversion done,
-            or default value if nothing was found (last option works
-            the same as `get_param` method).
-
-        """
-        value = self.env['ir.config_parameter'].get_param(key, default=default)
-        # Check if we actually got param. If value matches with default,
-        # it means we did not found param and it returned default value.
-        if value == default:
-            return default
-        return eval_fun(value)
-
-    # Environment and database operation helpers.
-
-    @contextmanager
-    def get_environment(self):
-        """Return new env, transaction is committed on closing env."""
-        Registry = registry(self.env.cr.dbname)
-        with Registry.cursor() as cr:
-            yield api.Environment(cr, self.env.uid, self._context)
-            cr.commit()
-
     @api.model
     def update_external_ids_module(self, names, module, module_new):
         """Update module name of external identifiers.
@@ -537,7 +311,6 @@ class Odootil(models.AbstractModel):
 
         Returns:
             updated record.
-            record
 
         """
         def update():
@@ -569,301 +342,6 @@ class Odootil(models.AbstractModel):
             else:
                 raise
 
-    # orderby transformation helpers.
-
-    def to_writable_keys(self, keys):
-        """Filter keys, leaving only those that could be writable.
-
-        We currently exclude ID key, because that one is not writable.
-        """
-        return [k for k in keys if k not in NON_WRITABLE_KEYS]
-
-    @api.model
-    def orderby_to_list(self, Model):
-        """Transform Model's _order value into list."""
-        return Model._order.replace(' ', '').split(',')
-
-    @api.model
-    def _orderby_to_items(self, _order):
-        for item in _order.split(','):
-            # Remove leading white space that might be hanging after
-            # splitting.
-            item = item.lstrip()
-            # E.g. 'name asc NULLS FIRST' -> ('name', 'asc NULLS FIRST')
-            key, *options = item.split(' ', 1)
-            options = options[0] if options else ''
-            yield (key.replace(' ', ''), options)
-
-    @api.model
-    def orderby_to_keys(self, _order):
-        """Transorm Model's _order to list keys only.
-
-        Strips all options, like asc, desc, NULLS {FIRST | LAST}.
-        """
-        return [item[0] for item in self._orderby_to_items(_order)]
-
-    def orderby_to_writable_keys(self, _order):
-        """Transorm Model's _order to list with writable keys."""
-        return self.to_writable_keys(self.orderby_to_keys(_order))
-
-    @api.model
-    def orderby_to_sort_keys(self, _order):
-        """Transform Model's _order to list of tuple keys.
-
-        First item in tuple is key, second boolean value, indicating if
-        key order must be reversed (usually descending).
-        """
-        def is_reversed(options):
-            return PSQL_DESC in options.lower()
-        return [
-            (i[0], is_reversed(i[1])) for i in self._orderby_to_items(_order)
-        ]
-
-    @api.model
-    def get_sort_key_function(self, sort_keys):
-        """Return function that uses sort_keys for sort function.
-
-        Takes into account reverse option, so comparison is done in
-        reverse using ReverseComparator class.
-        """
-        return lambda x: tuple(
-            ReverseComparator(x[k]) if rev else x[k] for (k, rev) in sort_keys
-        )
-
-    # recordset helpers.
-
-    @api.model
-    def get_record_index(
-        self,
-        recordset,
-        record,
-        start=0,
-        end=None,
-        msg=None,
-            raise_if_not_found=True):
-        """Get lowest zero-based index as record value in recordset.
-
-        Can specify optional range.
-
-        Args:
-            recordset (recordset): recordset to check
-            record (recordset): single record to find its index position
-                in recordset.
-            start (int): start index for recordset (default: {0})
-            end (int): end index for recordset (default: {None})
-            msg (str): custom exception message to use if record is not
-                found inside recordset.
-            raise_if_not_found (bool): raise ValidationError if record
-                is not in recordset (default: {True})
-
-        Returns:
-            record index position in recordset or raise if not found, or
-            -1 if not raising.
-            int
-
-        """
-        if not end:
-            end = len(recordset)
-        if start > end:
-            raise ValidationError(_("end index must be greater than start."))
-        for i in range(start, end):
-            if recordset[i] == record:
-                return i
-        if raise_if_not_found:
-            if not msg:
-                msg = _("%s is not in recordset") % record
-            raise ValidationError(msg)
-        return -1
-
-    @api.model
-    def sorted_with_newid(self, recordset, _order='id', reverse=False):
-        """Return sorted recordset. Records can have pseudo NewId.
-
-        If there are no records with NewId, it uses recordset `sorted`
-        method. With NewId, recordset gets sortable dummy records which
-        attributes are sorted like recordset, except for 'id' attribute.
-
-        'id' attribute is sorted using SortedNewId class. Read
-        SortedNewId docstring about 'id' attribute sorting.
-
-        Args:
-            recordset (recordset): recordset to be sorted.
-            _order (str): sorting spec as used by attribute _order.
-            reverse (bool): if sorted recordset is to be reversed.
-
-        Returns:
-            recordset: sorted recordset.
-
-        """
-        def create_dummy_record(record, pos, keys):
-            # new object will be used for id.
-            vals = {}
-            for key in keys:
-                vals[key] = record[key]
-            # False is NewId record that can have ref.
-            ref = record.id.ref if not record.id else None
-            vals['id'] = SortedNewId(
-                ref=ref, pos=pos, db_id=record.id)
-            return ItemDummy(**vals)
-
-        def to_sortable_with_map(recordset, keys):
-            records_map = {}
-            to_sort = []
-            for pos, record in enumerate(recordset):
-                dummy = create_dummy_record(record, pos, keys)
-                records_map[dummy.id._pseudo_id] = record
-                to_sort.append(dummy)
-            return to_sort, records_map  # map is to convert back.
-
-        def to_real_records(sorted_dummies, records_map, model_name):
-            sorted_recordset = self.env[model_name]
-            for dummy in sorted_dummies:
-                sorted_recordset |= records_map[dummy.id._pseudo_id]
-            return sorted_recordset
-        order_keys = self.orderby_to_keys(_order)
-        sort_keys = self.orderby_to_sort_keys(_order)
-        key_func = self.get_sort_key_function(sort_keys)
-        # only need to hack, if order contains 'id'
-        if 'id' in _order:
-            to_sort, records_map = to_sortable_with_map(
-                recordset, self.to_writable_keys(order_keys))
-            sorted_dummies = sorted(to_sort, key=key_func, reverse=reverse)
-            return to_real_records(
-                sorted_dummies, records_map, recordset._name)
-        return recordset.sorted(key=key_func, reverse=reverse)
-
-    @api.model
-    def new_with_recs(
-        self,
-        records,
-        values=None,
-        ref=None,
-        included_fields=None,
-            excluded_fields=None):
-        """Return new virtual record using provided record values.
-
-        This is wrapper for `new` method to include existing record
-        values.
-
-        Args:
-            records (recordset): records to use in creating NewId
-                instances. If empty, acts same as calling `new`.
-            values (dict): extra values to use in update.
-            ref (any): reference to NewId. Only works for empty
-                recordset. Otherwise, ref is related record ID
-                (default: {None}).
-            included_fields (list): fields to be read from records. If
-                not set, will read all record fields (default: {None}).
-            excluded_fields (list): fields to be excluded when reading
-                records. If not set, will read all record fields. Has no
-                effect, if included_fields is specified.
-                (default: {None}).
-
-        Returns:
-            recordset with NewId.
-
-        """
-        def get_field_names():
-            if included_fields:
-                return included_fields
-            field_names = records._fields.keys()
-            if excluded_fields:
-                return [
-                    fname for fname in field_names if fname not in
-                    excluded_fields
-                ]
-            return field_names
-
-        if not values:
-            values = {}
-        if not records:
-            return records.new(values=values, ref=ref)
-        new_recs = self.env[records._name]
-        field_names = get_field_names()
-        for record in records:
-            record_vals = {}
-            # We can't use read method here, because it can mess up
-            # cached values, if record changes are not yet saved to
-            # database.
-            record_vals = {fname: record[fname] for fname in field_names}
-            vals = dict(record_vals, **values)
-            new_recs |= record.new(values=vals, ref=record.id)
-        return new_recs
-
-    # Context helpers
-
-    @api.model
-    def get_active_data(self, single=False, msg=None):
-        """Validate context and return active data.
-
-        Args:
-            single (bool): check if active_ids can have only one element
-                 in it (default: {False})
-            msg (str): custom exception message if there is more than
-                one active_id, when single=True used (default: {None})
-
-        Returns:
-            {'res_id': int, 'res_ids': list, 'model': str}
-
-        """
-        ctx = self._context
-        try:
-            model = ctx['active_model']
-        except KeyError:
-            raise ValidationError(
-                _("Programming error: 'active_model' is missing in context"))
-        res_id = ctx.get('active_id', False)
-        res_ids = ctx.get('active_ids', [])
-        if not res_id:
-            try:
-                res_id = res_ids[0]
-            except IndexError:
-                raise ValidationError(
-                    _("Programming error: at least 'active_id' or "
-                        "'active_ids' key must be present in context"))
-        elif not res_ids:
-            res_ids = [res_id]
-        if single and len(res_ids) > 1:
-            exc_msg = msg or _("Only single active_id is allowed")
-            raise ValidationError(exc_msg)
-        return {
-            'res_id': res_id,
-            'res_ids': res_ids,
-            'model': model
-        }
-
-    @api.model
-    def get_active_records(self, single=False, msg=None):
-        """Return browsed records from active context.
-
-        Args:
-            single (bool): if record have to be singleton (
-                default: {False}).
-            msg (str): custom exception message if there is more than
-                one active_id, when single=True used (default: {None})
-
-        Returns:
-            recordset
-
-        """
-        data = self.get_active_data(single=single, msg=msg)
-        try:
-            return self.env[data['model']].browse(data['res_ids'])
-        except KeyError as e:
-            raise ValidationError(_("Model '%s' not found.") % e)
-
-    def force_with_context(self, obj, **kwargs):
-        """Build context with custom arguments and force context update.
-
-        Context is updated for argument `obj`.
-
-        Usual context update `self = self.with_context(...)` doesn't
-        work in onchange method, therefore we use a solution, suggested
-        here: https://github.com/odoo/odoo/issues/7472
-        """
-        obj.env.context = obj.with_context(**kwargs).env.context
-
-    @api.multi
     def prepare_message_compose_act(
             self, template_xml_id, composer_form_xml_id=None, target='new',
             attachments_data=None):
@@ -897,7 +375,6 @@ class Odootil(models.AbstractModel):
             context['default_attachment_ids'] = [(6, 0, attachments.ids)]
         return {
             'type': 'ir.actions.act_window',
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'mail.compose.message',
             'views': [(composer_form_view.id, 'form')],
@@ -949,138 +426,6 @@ class Odootil(models.AbstractModel):
         singleton_records[key] = record
         return record
 
-    # ir.actions helpers.
-
-    @api.model
-    def _get_default_act_window_vals(self, Model):
-        return {
-            'name': Model._description,
-            'type': 'ir.actions.act_window',
-            'res_model': Model._name,
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'views': [(False, 'tree'), (False, 'form')],
-            'target': 'current',
-        }
-
-    @api.model
-    def _update_act_window_views(self, views, view_xml_ids_map):
-        def get_view_id(xml_id):
-            if not xml_id:
-                return False
-            return self.env.ref(xml_id)
-        # Use enumerate to know which view tuple to replace.
-        for i, item in enumerate(views):
-            view_type, view_id = item
-            if view_type in view_xml_ids_map:
-                xml_id = view_xml_ids_map[view_type]
-                views[i] = (get_view_id(xml_id), view_type)
-
-    @api.model
-    def prepare_action_view_records(
-            self,
-            records,
-            act_xml_id=None,
-            options=None):
-        """Prepare act_window dict to open its record or records.
-
-        If records are passed only, default act_window dict will be used
-        with tree and form views.
-
-        Can set manual option, to not use any conditions and modify what
-        is manually specified.
-
-        Default condition for using all views: need to be more than one
-        record.
-        Default condition for form view: need to be exactly one record.
-
-        Args:
-            records (recordset): recordset to generate act_window for.
-            act_xml_id (str): XML ID for act_window to use its values
-                from. (default: {None})
-            options (dict): custom options to tailor how act_window dict
-                is to be generated. Currently such keys are supported:
-                    - custom_vals (dict): can specify any vals to
-                        overwrite generated by default (e.g change
-                        name).
-                    - view_xml_ids_map (dict): XML IDs mapping for
-                        views per view type. Key should be view type and
-                        value that view's XML ID. Will overwrite XML ID
-                        even if one is already set from act_window dict.
-                    - conditions (dict): can specify custom conditions
-                        when checking if use all views or form only.
-                        Value is filter function which argument is
-                        recordset. For all views, need to use key
-                        'views_all', for form, 'views_form'.
-                        (default: {None})
-                    - manual (bool): whether to ignore any condition
-                        and use only specified options.
-
-        Returns:
-            Generated act_window dict
-            dict
-
-        """
-        def filter_views(views, types_to_keep):
-            return [
-                (vid, vtype) for vid, vtype in views if vtype in types_to_keep
-            ]
-
-        def get_conditions(conditions):
-            def condi_views_all(records):
-                return len(records) > 1
-
-            def condi_views_form(records):
-                return len(records) == 1
-
-            condi_all = condi_views_all
-            condi_form = condi_views_form
-            if conditions.get('views_all'):
-                condi_all = conditions['views_all']
-            if conditions.get('views_form'):
-                condi_form = conditions['views_form']
-            return condi_all, condi_form
-
-        def handle_conditions():
-            condi_all, condi_form = get_conditions(
-                options.get('conditions', {})
-            )
-            if condi_all(records):
-                act_dict['domain'] = [('id', 'in', records.ids)]
-                return True
-            elif condi_form(records):
-                views = filter_views(act_dict['views'], ['form'])
-                act_dict.update(
-                    res_id=records.id,
-                    view_mode='form',
-                    views=views
-                )
-                return True
-            else:
-                act_dict['type'] = 'ir.actions.act_window_close'
-                return False
-
-        if not options:
-            options = {}
-        if act_xml_id:
-            act_dict = self.env.ref(act_xml_id).read()[0]
-        else:
-            # Pass records to act as a Model.
-            act_dict = self._get_default_act_window_vals(records)
-        # Set custom vals on act_dict.
-        act_dict.update(options.get('custom_vals', {}))
-        condi_all, condi_form = get_conditions(options.get('conditions', {}))
-        if not options.get('manual'):
-            condi_res = handle_conditions()
-            if not condi_res:
-                # Return here, to avoid any other updates that might come
-                # at the end of method.
-                return act_dict
-        if options.get('view_xml_ids_map'):
-            view_xml_ids_map = options['view_xml_ids_map']
-            self._update_act_window_views(act_dict['views'], view_xml_ids_map)
-        return act_dict
-
     # Date helpers.
 
     @api.model
@@ -1121,22 +466,6 @@ class Odootil(models.AbstractModel):
             (11, _("November")),
             (12, _("December")),
         ]
-
-    @api.model
-    def get_iso_timestamp(self, dt=fields.Datetime.now()):
-        """Get datetime in ISO format.
-
-        Args:
-            dt (str, date, datetime): date/datetime string or object
-                (default: {now}).
-
-        Returns:
-            datetime in ISO format, e.g. '2018-01-22T08:19:54+01:00'.
-            str
-
-        """
-        return fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(dt)).isoformat()
 
     # Compute amount helpers.
 
@@ -1239,6 +568,7 @@ class Odootil(models.AbstractModel):
                 amount, to_currency, order.company_id, date)
         return amount
 
+    # TODO: check for refactoring once related module is migrated.
     @api.model
     def get_o2m_field_for_inverse(self, Model, inverse_name):
         """Return related o2m field using inverse_name (m2o).
@@ -1264,87 +594,6 @@ class Odootil(models.AbstractModel):
             "No one2many field found for inverse field '%s' with model '%s'" %
             (inverse_name, parent_model_name)
         )
-
-    # Access Management Helpers.
-    # TODO: better make system wide change module that would implement
-    # such access management without a need to override for every
-    # model/fields pair.
-    @api.model
-    def check_access_set_fields(self, fields, vals, groups, model=''):
-        """Check if user has access to set value on fields.
-
-        Current user is checked for specified fields. If fields are
-        in vals and user has no specified access groups, AccessError is
-        raised.
-
-        Args:
-            fields (list): field names to check.
-            vals (dict): dictionary used in create/write methods.
-            groups (str): comma-separated list of fully-qualified group
-                external IDs, e.g., `base.group_user,base.group_system`,
-                optionally preceded by `!`.
-            model (str): model name to show on access error message.
-                (default: {''})
-
-        Raises:
-            AccessError
-
-        """
-        if self._uid != SUPERUSER_ID:
-            for field in fields:
-                if field in vals:
-                    if not self.user_has_groups(groups):
-                        raise AccessError(
-                            _("You have no access to set value on '%s' "
-                                "field. Model: '%s'") % (field, model))
-                    break  # its enough to match one field with vals.
-
-    # View Manipulation Helpers
-
-    def validate_form_required_fields(self, record):
-        """Validate record required fields as it was saved on form.
-
-        Args:
-            record (recordset): singleton recordset to validate required
-                fields.
-
-        Returns:
-            True if valid
-            bool
-
-        Raises:
-            ValidationError
-
-        """
-        def check_required(form):
-            fields = form._view['fields']
-            for fname in fields:
-                descr = fields[fname]
-                value = form._values[fname]
-                # Reusing same approach as in odoo.tests.common.Form.
-                required = (
-                    form._get_modifier(fname, 'required') and not
-                    descr['type'] == 'boolean'
-                )
-                yield (required, value, fname)
-
-        def is_required_missing(required, value):
-            return required and value is False
-
-        with Form(record) as form:
-            field_labels = []
-            IrTranslation = self.env['ir.translation']
-            model_name = record._name
-            for required, value, fname in check_required(form):
-                if is_required_missing(required, value):
-                    # This one is supposed to be cached.
-                    label = IrTranslation.get_field_string(model_name)[fname]
-                    field_labels.append(label)
-            if field_labels:
-                raise ValidationError(
-                    _("These fields are required: %s") %
-                    ', '.join(field_labels))
-        return True
 
     # Other constraint helpers
 

@@ -22,46 +22,41 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
 
     def test_01_get_recordset_index_1(self):
         """Get index for partner_1."""
-        idx = self.Odootil.get_record_index(self.partners, self.partner_1)
+        idx = self.partners.get_record_index(self.partner_1)
         self.assertEqual(idx, 0)
         # Use custom range.
         with self.assertRaises(ValidationError):
-            self.Odootil.get_record_index(
-                self.partners, self.partner_1, start=1)
+            self.partners.get_record_index(self.partner_1, start=1)
 
     def test_02_get_recordset_index_2(self):
         """Get index for partner_3."""
-        idx = self.Odootil.get_record_index(self.partners, self.partner_3)
+        idx = self.partners.get_record_index(self.partner_3)
         self.assertEqual(idx, 2)
         # Use custom range to not fit in.
         with self.assertRaises(ValidationError):
-            self.Odootil.get_record_index(
-                self.partners, self.partner_3, start=1, end=2)
+            self.partners.get_record_index(self.partner_3, start=1, end=2)
         # use custom range to fit in.
-        idx = self.Odootil.get_record_index(
-            self.partners, self.partner_3, start=2, end=3)
+        idx = self.partners.get_record_index(self.partner_3, start=2, end=3)
         self.assertEqual(idx, 2)
         # Make start greater than end.
         with self.assertRaises(ValidationError):
-            self.Odootil.get_record_index(
-                self.partners, self.partner_3, start=4)
+            self.partners.get_record_index(self.partner_3, start=4)
         # Use not existing index in recordset.
         with self.assertRaises(IndexError):
-            self.Odootil.get_record_index(
-                self.partners, self.partner_3, start=4, end=5)
+            self.partners.get_record_index(self.partner_3, start=4, end=5)
 
     def test_03_get_recordset_index_3(self):
         """Get index for partner_4."""
         with self.assertRaises(ValidationError):
-            self.Odootil.get_record_index(self.partners, self.partner_4)
-        idx = self.Odootil.get_record_index(
-            self.partners, self.partner_4, raise_if_not_found=False)
+            self.partners.get_record_index(self.partner_4)
+        idx = self.partners.get_record_index(
+            self.partner_4, raise_if_not_found=False)
         self.assertEqual(idx, -1)
 
     def test_04_sorted_with_newid(self):
         """Sort only normal recordset."""
-        sorted_partners = self.Odootil.sorted_with_newid(
-            self.partners_to_sort, _order=self._order)
+        sorted_partners = self.partners_to_sort.sorted_virtual(
+            order_spec=self._order)
         self.assertEqual(sorted_partners, self.partners)
 
     def test_05_sorted_with_newid(self):
@@ -71,15 +66,16 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         # we define locally inside test method.
         partner_new_4 = self.ResPartner.new({'name': 'new4', 'color': 4})
         partner_new_5 = self.ResPartner.new({'name': 'new5', 'color': 5})
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partner_new_5 | partner_new_4, _order=self._order)
+        partners_to_sort = (partner_new_5 | partner_new_4)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order)
         self.assertEqual(sorted_partners[0], partner_new_4)
         self.assertEqual(sorted_partners[1], partner_new_5)
         # Make color number the same, so only order records are
         # originally added is used.
         partner_new_5.color = 4
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partner_new_5 | partner_new_4, _order=self._order)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order)
         self.assertEqual(sorted_partners[0], partner_new_5)
         self.assertEqual(sorted_partners[1], partner_new_4)
 
@@ -90,9 +86,8 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         partners_to_sort = (
             partner_new_5 | partner_new_4 | self.partners_to_sort)
         # Sort by color, id.
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort,
-            _order=self._order)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order)
         # First three must be normal records.
         self.assertEqual(sorted_partners[:3], self.partners)
         self.assertEqual(sorted_partners[3], partner_new_4)
@@ -101,15 +96,14 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         # after partner_2, because NewId records go after normal
         # records.
         partner_new_4.color = 2
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort, _order=self._order)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order)
         self.assertEqual(sorted_partners[:2], self.partner_1 | self.partner_2)
         self.assertEqual(sorted_partners[2], partner_new_4)
         self.assertEqual(sorted_partners[3], self.partner_3)
         self.assertEqual(sorted_partners[4], partner_new_5)
         # Sort only by id.
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort)
+        sorted_partners = partners_to_sort.sorted_virtual(order_spec='id')
         partners_reversed_by_id = self.partners.sorted(key='id')
         self.assertEqual(sorted_partners[0], partners_reversed_by_id[0])
         self.assertEqual(sorted_partners[1], partners_reversed_by_id[1])
@@ -129,9 +123,8 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         partners_to_sort = (
             partner_new_5 | partner_new_4 | self.partners_to_sort)
         # Sort by color, id.
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort,
-            _order=self._order_2)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order_2)
         self.assertEqual(sorted_partners[0], partner_new_5)
         self.assertEqual(sorted_partners[1], partner_new_4)
         self.assertEqual(sorted_partners[2:], partners_reversed)
@@ -139,16 +132,15 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         # before partner_2, because NewId records go after normal
         # records (id is still sorted in ascending order).
         partner_new_4.color = 2
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort, _order=self._order_2)
+        sorted_partners = partners_to_sort.sorted_virtual(
+            order_spec=self._order_2)
         self.assertEqual(sorted_partners[0], partner_new_5)
         self.assertEqual(sorted_partners[1], self.partner_3)
         self.assertEqual(sorted_partners[2], self.partner_2)
         self.assertEqual(sorted_partners[3], partner_new_4)
         self.assertEqual(sorted_partners[4], self.partner_1)
         # Sort only by id, but in descending order.
-        sorted_partners = self.Odootil.sorted_with_newid(
-            partners_to_sort, _order='id DESC')
+        sorted_partners = partners_to_sort.sorted_virtual(order_spec='id DESC')
         self.assertEqual(sorted_partners[0], partner_new_4)
         self.assertEqual(sorted_partners[1], partner_new_5)
         partners_reversed_by_id_desc = self.partners.sorted(
@@ -157,73 +149,75 @@ class TestRecordSetHelpers(common.TestOdootilCommon):
         self.assertEqual(sorted_partners[3], partners_reversed_by_id_desc[1])
         self.assertEqual(sorted_partners[4], partners_reversed_by_id_desc[2])
 
-    def test_08_new_with_recs(self):
-        """Get new record from empty record."""
-        new_rec = self.Odootil.new_with_recs(
-            self.ResPartner, values=dict(self.new_rec_vals), ref='my_ref')
+    def test_08_new_multi(self):
+        """Get new record from empty record.
+
+        Case 1: with refs
+        Case 2: without refs.
+        """
+        # Case 1.
+        new_rec = self.ResPartner.new_multi(
+            values=dict(self.new_rec_vals), refs=['my_ref']
+        )
         self.assertEqual(new_rec.name, 'dummy')
         self.assertEqual(new_rec.street, False)
         self.assertEqual(new_rec.id.ref, 'my_ref')
+        # Case 2.
+        new_rec = self.ResPartner.new_multi(values=dict(self.new_rec_vals))
+        self.assertEqual(new_rec.name, 'dummy')
+        self.assertEqual(new_rec.street, False)
+        self.assertEqual(new_rec.id.ref, None)
+        self.assertEqual(new_rec.id.origin, None)
 
-    def test_09_new_with_recs(self):
-        """Get new record from single record."""
-        new_rec = self.Odootil.new_with_recs(
-            self.partner_1, values=dict(self.new_rec_vals), ref='my_ref')
+    def test_09_new_multi(self):
+        """Get new record from single record (refs passed)."""
+        new_rec = self.partner_1.new_multi(
+            values=dict(self.new_rec_vals), refs=['my_ref'])
         self.assertEqual(new_rec.name, 'dummy')
         self.assertEqual(new_rec.street, self.partner_1.street)
-        self.assertEqual(new_rec.id.ref, self.partner_1.id)
+        self.assertEqual(new_rec.id.ref, None)
+        self.assertEqual(new_rec.id.origin, self.partner_1.id)
 
-    def test_10_new_with_recs(self):
-        """Get new record from single record with exclusions."""
-        new_rec = self.Odootil.new_with_recs(
-            self.partner_1,
-            values=dict(self.new_rec_vals), excluded_fields=['street', 'city'])
+    def test_10_new_multi(self):
+        """Get new record from single record (no refs passed)."""
+        new_rec = self.partner_1.new_multi(values=dict(self.new_rec_vals))
         self.assertEqual(new_rec.name, 'dummy')
-        self.assertFalse(new_rec.street)
-        self.assertFalse(new_rec.city)
+        self.assertEqual(new_rec.street, self.partner_1.street)
+        self.assertEqual(new_rec.city, self.partner_1.city)
         self.assertEqual(new_rec.country_id, self.partner_1.country_id)
+        self.assertEqual(new_rec.is_company, self.partner_1.is_company)
 
-    def test_11_new_with_recs(self):
-        """Get new record from single record with inclusions."""
-        new_rec = self.Odootil.new_with_recs(
-            self.partner_1,
-            values=dict(self.new_rec_vals), included_fields=['street', 'city'])
-        self.assertEqual(new_rec.name, 'dummy')
-        self.assertEqual(new_rec.street, self.partner_1.street)
-        self.assertEqual(new_rec.city, self.partner_1.city)
-        self.assertFalse(new_rec.country_id, self.partner_1.country_id)
-        self.assertFalse(new_rec.is_company, self.partner_1.is_company)
-
-    def test_12_new_with_recs(self):
-        """Get new record from single record with incl/excl."""
-        new_rec = self.Odootil.new_with_recs(
-            self.partner_1,
-            values=dict(self.new_rec_vals),
-            included_fields=['street', 'city'],
-            # Should be ignored.
-            excluded_fields=['city', 'country_id']
-        )
-        self.assertEqual(new_rec.name, 'dummy')
-        self.assertEqual(new_rec.street, self.partner_1.street)
-        self.assertEqual(new_rec.city, self.partner_1.city)
-        self.assertFalse(new_rec.country_id, self.partner_1.country_id)
-        self.assertFalse(new_rec.is_company, self.partner_1.is_company)
-
-    def test_13_new_with_recs(self):
+    def test_11_new_multi(self):
         """Get new records from multiple records."""
         def test_fields(new_rec, partner):
             self.assertEqual(new_rec.name, 'dummy')
             self.assertEqual(new_rec.street, partner.street)
             self.assertEqual(new_rec.street, partner.street)
             self.assertEqual(new_rec.parent_id, partner.parent_id)
-            self.assertEqual(new_rec.child_ids, partner.child_ids)
+            # One2many related records are affected by its parent new,
+            # if it has `origin` specified, so these records will also
+            # now of NewId instance.
+            childs = self.env['res.partner']
+            for child in partner.child_ids:
+                childs |= self.ResPartner.new(origin=child)
+            self.assertEqual(new_rec.child_ids, childs)
 
         # To make sure it has parent_id.
         child = self.partner_2.child_ids[0]
-        recs = self.Odootil.new_with_recs(
-            (self.partner_1 | child), values=dict(self.new_rec_vals)
+        recs = (self.partner_1 | child).new_multi(
+            values=dict(self.new_rec_vals)
         )
         self.assertEqual(recs.mapped('name'), ['dummy', 'dummy'])
         rec1, rec2 = (recs[0], recs[1])
         test_fields(rec1, self.partner_1)
         test_fields(rec2, child)
+
+    def test_12_new_multi(self):
+        """Get multiple new empty records with ref list."""
+        records = self.ResPartner.new_multi(
+            values=dict(self.new_rec_vals), refs=[1, 2])
+        self.assertEqual(len(records), 2)
+        self.assertEqual(records[0].id.ref, 1)
+        self.assertEqual(records[1].id.ref, 2)
+        self.assertEqual(records[0].id.origin, None)
+        self.assertEqual(records[1].id.origin, None)

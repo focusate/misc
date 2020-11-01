@@ -23,21 +23,20 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
             'name': self.ResPartner._description,
             'type': 'ir.actions.act_window',
             'res_model': 'res.partner',
-            'view_type': 'form',
             'view_mode': 'tree,form',
             'views': [(False, 'tree'), (False, 'form')],
             'target': 'current',
         }
 
-    def test_01_prepare_action_view_records(self):
+    def test_01_prepare_act_window_data(self):
         """Get action dict, when records is empty recordset."""
-        res = self.Odootil.prepare_action_view_records(self.ResPartner)
+        res = self.ResPartner.prepare_act_window_data()
         self.base_act_vals['type'] = 'ir.actions.act_window_close'
         self.assertEqual(res, self.base_act_vals)
 
-    def test_02_prepare_action_view_records(self):
+    def test_02_prepare_act_window_data(self):
         """Get action dict with default arguments."""
-        res = self.Odootil.prepare_action_view_records(self.partners)
+        res = self.partners.prepare_act_window_data()
         dest_vals = dict(
             self.base_act_vals,
             domain=[('id', 'in', self.partners.ids)],
@@ -46,7 +45,7 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
             res,
             dest_vals
         )
-        res = self.Odootil.prepare_action_view_records(self.partner_1)
+        res = self.partner_1.prepare_act_window_data()
         del dest_vals['domain']
         dest_vals.update(
             res_id=self.partner_1.id,
@@ -67,10 +66,10 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
         for k, v in act_dict.items():
             self.assertEqual(dest_act_dict[k], v, k)
 
-    def test_03_prepare_action_view_records(self):
+    def test_03_prepare_act_window_data(self):
         """Get action dict with custom action."""
-        res = self.Odootil.prepare_action_view_records(
-            self.partners, act_xml_id=self.act_partner_xml_id)
+        res = self.partners.prepare_act_window_data(
+            act_xml_id=self.act_partner_xml_id)
         views = self.act_partner.read()[0]['views']
         self._compare_with_action(
             res,
@@ -79,8 +78,8 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
                 'domain': [('id', 'in', self.partners.ids)],
             }
         )
-        res = self.Odootil.prepare_action_view_records(
-            self.partner_1, act_xml_id=self.act_partner_xml_id)
+        res = self.partner_1.prepare_act_window_data(
+            act_xml_id=self.act_partner_xml_id)
         self._compare_with_action(
             res,
             self.act_partner,
@@ -92,7 +91,7 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
             }
         )
 
-    def test_04_prepare_action_view_records(self):
+    def test_04_prepare_act_window_data(self):
         """Get action dict with custom action and other custom args."""
         # Dict to change views if such views are used when opening
         # records.
@@ -106,8 +105,7 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
         # is the same when using that partner action.
         views[0] = (False, 'kanban')
         views[2] = (self.view_partner_form.id, 'form')
-        res = self.Odootil.prepare_action_view_records(
-            self.partners,
+        res = self.partners.prepare_act_window_data(
             act_xml_id=self.act_partner_xml_id,
             options={
                 'view_xml_ids_map': view_xml_ids_map,
@@ -123,8 +121,7 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
                 'name': 'TEST',
             }
         )
-        res = self.Odootil.prepare_action_view_records(
-            self.partner_1,
+        res = self.partner_1.prepare_act_window_data(
             act_xml_id=self.act_partner_xml_id,
             options={'view_xml_ids_map': view_xml_ids_map}
         )
@@ -138,11 +135,10 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
             }
         )
 
-    def test_05_prepare_action_view_records(self):
+    def test_05_prepare_act_window_data(self):
         """Get action dict with custom views conditions."""
         # Custom condition for all views (when no views are filtered).
-        res = self.Odootil.prepare_action_view_records(
-            self.ResPartner,
+        res = self.ResPartner.prepare_act_window_data(
             options={
                 'conditions': {
                     'views_all': lambda recs: not recs or len(recs) > 1
@@ -156,8 +152,7 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
         # Custom condition for form view (when all views are filtered
         # out, except form).
         self.assertEqual(res, dest_vals)
-        res = self.Odootil.prepare_action_view_records(
-            self.ResPartner,
+        res = self.ResPartner.prepare_act_window_data(
             options={
                 'conditions': {
                     # Same condition as for views_all, just shorter:)
@@ -173,12 +168,11 @@ class TestIrActionsHelpers(common.TestOdootilCommon):
         )
         self.assertEqual(res, dest_vals)
 
-    def test_06_prepare_action_view_records(self):
+    def test_06_prepare_act_window_data(self):
         """Get action dict with manual option."""
         # To Check if domain is not auto generated by conditions check.
         domain = [(1, '=', 1)]
-        res = self.Odootil.prepare_action_view_records(
-            self.partners,
+        res = self.partners.prepare_act_window_data(
             options={
                 'manual': True,
                 'custom_vals': {'domain': domain}

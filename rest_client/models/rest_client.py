@@ -47,20 +47,20 @@ class RestClientAuth(models.AbstractModel):
             ('state', '=', 'confirmed'), ('company_id', '=', company_id)
         ]
 
-    @api.one
     @api.constrains('url')
     def _check_url(self):
-        self.env['odootil'].check_url(self.url)
+        for rec in self:
+            self.env['odootil'].check_url(rec.url)
 
-    @api.one
     @api.constrains('state', 'company_id')
     def _check_auth_unique(self):
-        if self.state == 'confirmed':
-            domain = self._get_domain(company_id=self.company_id.id)
-            if self.search_count(domain) > 1:
-                raise ValidationError(
-                    _("Authentication record must be unique per company or "
-                        "can have one global authentication record."))
+        for rec in self:
+            if rec.state == 'confirmed':
+                domain = rec._get_domain(company_id=rec.company_id.id)
+                if rec.search_count(domain) > 1:
+                    raise ValidationError(
+                        _("Authentication record must be unique per company "
+                            "or can have one global authentication record."))
 
     @api.model
     def get_auth(self, company_id):

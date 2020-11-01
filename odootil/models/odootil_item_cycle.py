@@ -51,7 +51,7 @@ class OdootilItemCycle(models.AbstractModel):
             Model = self.env[model_name]
             field = Model._fields[ITEM_CYCLE_CONTAINER_FIELD]
             records = self._get_container_records_to_recompute(Model)
-            self.env.add_todo(field, records)
+            self.env.add_to_compute(field, records)
         self.recompute()
 
     @api.model_create_multi
@@ -61,7 +61,6 @@ class OdootilItemCycle(models.AbstractModel):
         self._recompute_container_fields()
         return records
 
-    @api.multi
     def write(self, vals):
         """Override to trigger related container fields recompute."""
         result = super().write(vals)

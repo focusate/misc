@@ -1,8 +1,10 @@
 from .common import TestOdootilCommon
 
 XML_ID = 'base.autovacuum_job'
+XML_ID_2 = 'base.bank_ing'
 DUMMY_XML_ID = 'base.not_existing_xml_id'
 FILE_PATH = 'base/data/ir_cron_data.xml'
+FILE_PATH_2 = 'base/data/res_bank_demo.xml'
 DUMMY_NAME = 'NEWNAME'
 DUMMY_VALS = {'name': DUMMY_NAME}
 
@@ -26,9 +28,9 @@ class TestEnvDbHelpers(TestOdootilCommon):
 
     def test_03_update_xml_record(self):
         """Update when it does not exist, but can be recreated."""
-        self.env.ref(XML_ID).unlink()
+        self.env.ref(XML_ID_2).unlink()
         record = self.Odootil.update_xml_record(
-            XML_ID, dict(DUMMY_VALS), path=FILE_PATH)
+            XML_ID_2, dict(DUMMY_VALS), path=FILE_PATH_2)
         self.assertEqual(record.name, DUMMY_NAME)
 
     def test_04_update_xml_record(self):

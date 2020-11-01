@@ -1,7 +1,7 @@
 from . import (
     common,
     test_check_dates_range,
-    test_get_iso_timestamp,
+    test_context_timestamp_iso,
     test_get_selection_label,
     test_ir_config_parameter,
     test_monetary_format,
@@ -15,7 +15,6 @@ from . import (
     test_search_helpers,
     test_recordset_helpers,
     test_orderby_helpers,
-    test_access_helpers,
     test_view_helpers,
     test_constraint_helpers,
     test_toggle_active,
@@ -24,7 +23,7 @@ from . import (
 __all__ = [
     common,
     test_check_dates_range,
-    test_get_iso_timestamp,
+    test_context_timestamp_iso,
     test_get_selection_label,
     test_ir_config_parameter,
     test_monetary_format,
@@ -38,7 +37,6 @@ __all__ = [
     test_search_helpers,
     test_recordset_helpers,
     test_orderby_helpers,
-    test_access_helpers,
     test_view_helpers,
     test_constraint_helpers,
     test_toggle_active,
