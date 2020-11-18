@@ -3,6 +3,7 @@ import collections
 from footil.sorting import ReverseComparator
 
 from odoo import models, api, _
+from odoo.osv import expression
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
 
@@ -51,6 +52,117 @@ class Base(models.AbstractModel):
     """Extend to add odootil helper methods."""
 
     _inherit = 'base'
+
+    # Check helpers.
+
+    def __prepare_search_multicompany_method(
+            self, domain, offset=0, limit=None, order=None, options=None):
+        def is_multi_comp_used(multi_comp_rule_xml_id, company_id):
+            # Multi company is used, if there is explicit rule to
+            # enable/disable it or if company_id was passed as argument.
+            # Multi company rule takes priority.
+            if multi_comp_rule_xml_id:
+                # Rule that defines if multi-company rule is enabled (
+                # shared globally or per company)
+                return (
+                    self.sudo().env.ref(multi_comp_rule_xml_id).active
+                    # Can filter per company, only if company is passed,
+                    # otherwise would filter for partners that have no
+                    # company set only.
+                    and company_id
+                )
+            return bool(company_id)
+
+        def get_company_domain(multi_comp_rule_xml_id, company_id):
+            if is_multi_comp_used(multi_comp_rule_xml_id, company_id):
+                return [('company_id', 'in', [company_id, False])]
+            return []
+
+        def to_multicompany_domain(domain):
+            company_domain = get_company_domain(
+                options.get('multi_comp_rule_xml_id'),
+                options.get('company_id', False))
+            return expression.AND([domain, company_domain])
+
+        def _search_multicompany_method(count=False):
+            return self.with_context(active_test=active_test).search(
+                domain, offset=offset, limit=limit, order=order, count=count)
+
+        if not options:
+            options = {}
+        domain = to_multicompany_domain(domain)
+        active_test = options.get('active_test', False)
+        return _search_multicompany_method
+
+    @api.model
+    def search_multicompany(
+            self, domain, offset=0, limit=None, order=None, options=None):
+        """Find multi-company friendly records by domain.
+
+        Intended to be used for fields where value uniqueness must be
+        preserved.
+
+        Uniqueness checked globally if objects are shared across
+        multiple companies, otherwise current object company is used.
+
+        Args:
+            domain: base domain for search. Should not include
+                multi-company leaf.
+            offset (int): number of results to ignore (default: {0})
+            limit (int): maximum number of records to return (default:
+                {None})
+            order (str): sort string (default {None})
+            options (dict): extra options to modify search. Dict can
+                    have such keys. (default: {None}):
+                multi_comp_rule_xml_id (str): multi company ir.rule
+                    XMLID that is used to identify if multi-company is
+                    used for that object. Optional (default: {None}).
+                company_id (int): company ID that is used for multi
+                    company domain. If multi_company_rule_xml_id is not
+                    used and company_id is specified, it will be force
+                    used in domain. Optional (default: {False}).
+                active_test (bool): whether to include inactive records.
+                    False value means include (default: {False}).
+
+        Returns:
+            recordset
+
+        """
+        return self.__prepare_search_multicompany_method(
+            domain, options=options)()
+
+    @api.model
+    def search_multicompany_count(self, domain, options=None):
+        """Find multi-company friendly records count by domain.
+
+        Intended to be used for fields where value uniqueness must be
+        preserved.
+
+        Uniqueness checked globally if objects are shared across
+        multiple companies, otherwise current object company is used.
+
+        Args:
+            domain: base domain for search. Should not include
+                multi-company leaf.
+                {None})
+            options (dict): extra options to modify search. Dict can
+                    have such keys. (default: {None}):
+                multi_comp_rule_xml_id (str): multi company ir.rule
+                    XMLID that is used to identify if multi-company is
+                    used for that object. Optional (default: {None}).
+                company_id (int): company ID that is used for multi
+                    company domain. If multi_company_rule_xml_id is not
+                    used and company_id is specified, it will be force
+                    used in domain. Optional (default: {False}).
+                active_test (bool): whether to include inactive records.
+                    False value means include (default: {False}).
+
+        Returns:
+            recordset
+
+        """
+        return self.__prepare_search_multicompany_method(
+            domain, options=options)(count=True)
 
     # Search helpers.
 
@@ -555,3 +667,29 @@ class Base(models.AbstractModel):
             view_xml_ids_map = options['view_xml_ids_map']
             self._update_act_window_views(act_dict['views'], view_xml_ids_map)
         return act_dict
+
+    # Misc
+
+    @api.model
+    def get_o2m_field_for_inverse(self, inverse_name):
+        """Return related o2m field using inverse_name (m2o).
+
+        Returns first found o2m field for inverse field.
+
+        Args:
+            inverse_name (str): m2o field that is inverse field for
+                target o2m field.
+
+        Returns:
+            fields.One2Many: o2m field object.
+
+        """
+        parent_model_name = self._fields[inverse_name].comodel_name
+        ParentModel = self.env[parent_model_name]
+        for field in ParentModel._fields.values():
+            if field.type == 'one2many' and field.inverse_name == inverse_name:
+                return field
+        raise ValueError(
+            "No one2many field found for inverse field '%s' with model '%s'" %
+            (inverse_name, parent_model_name)
+        )

@@ -2,12 +2,12 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "REST Client Demo",
-    'version': '14.0.1.0.0',
+    'version': '14.0.2.0.0-rc.1',
     'summary': 'rest, client, manager, demo',
     'license': 'OEEL-1',
     'author': "Focusate",
     'website': "http://www.focusate.eu",
-    'category': 'Extra Tools',
+    'category': 'Technical/Demo',
     'depends': [
         'rest_client'
     ],

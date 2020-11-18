@@ -2,12 +2,12 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Odoo Utilities",
-    'version': '14.0.1.0.0',
+    'version': '14.0.3.0.0-rc.1',
     'summary': 'odoo, utilities, helper methods',
     'license': 'OEEL-1',
     'author': "Focusate",
     'website': "http://www.focusate.eu",
-    'category': 'Extra Tools',
+    'category': 'Technical/Tools',
     'depends': [
         'web'
     ],

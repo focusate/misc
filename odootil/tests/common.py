@@ -55,17 +55,6 @@ def switch_record_currency(
         record[currency_fld] = eur.id
 
 
-# TODO: replace Dummy with ItemDummy (ItemDummy should be moved
-# to footil first).
-class Dummy(object):
-    """Dummy class to create object with various attributes."""
-
-    def __init__(self, **kwargs):
-        """Set up attributes."""
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-
-
 class TestBaseCommon(common.SavepointCase):
     """Utility class for more convenient all purpose tests."""
 

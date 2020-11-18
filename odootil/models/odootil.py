@@ -52,90 +52,6 @@ class Odootil(models.AbstractModel):
     _name = 'odootil'
     _description = 'Odoo Utilities'
 
-    # Check helpers.
-
-    # TODO: update translations after module is finished being migrated.
-    # TODO: rename to something like find_dupes/find_dupes_count (where
-    # count method could be used for just count search.)
-    # TODO: refactor to again use full domain instead of one value and
-    # field name.
-    # TODO: refactor this once related modules are being migrated.
-    def check_field_unique(
-        self,
-        Model,
-        field_name,
-        val,
-        count=False,
-            options=None):
-        """Check if field value is unique.
-
-        Intended to be used for fields where value uniqueness must be
-        preserved.
-
-        Uniqueness checked globally if objects are shared across
-        multiple companies, otherwise current object company is used.
-
-        Args:
-            obj (models.Model): object to use as a base for uniqueness
-                check.
-            field_name (str): field that is checked.
-            val (any): value of field to be build search domain.
-            count (bool): whether to just count duplicates or return
-                found records. Optional (default: {False}).
-            options (dict): extra options to modify search. Dict can
-                    have such keys. (default: {None}):
-                args (list): additional domain to be extended on top of
-                    main one. Optional (default: {None})
-                case_insensitive (bool): flag if case insensitive search
-                    should be done. Optional (default: {False}).
-                multi_comp_rule_xml_id (str): multi company ir.rule
-                    XMLID that is used to identify if multi-company is
-                    used for that object. Optional (default: {None}).
-                company_id (int): company ID that is used for multi
-                    company domain. If multi_company_rule_xml_id is not
-                    used and company_id is specified, it will be force
-                    used in domain. Optional (default: {False}).
-
-        Returns:
-            Number of records found.
-            int
-
-        """
-        def is_multi_comp_used(multi_comp_rule_xml_id, company_id):
-            # Multi company is used, if there is explicit rule to
-            # enable/disable it or if company_id was passed as argument.
-            # Multi company rule takes priority.
-            if multi_comp_rule_xml_id:
-                # Rule that defines if multi-company rule is enabled (
-                # shared globally or per company)
-                return self.sudo().env.ref(multi_comp_rule_xml_id).active
-            return bool(company_id)
-
-        def get_company_domain_leaf(multi_comp_rule_xml_id, company_id):
-            if is_multi_comp_used(multi_comp_rule_xml_id, company_id):
-                return ('company_id', 'in', [company_id, False])
-            return []
-
-        def get_domain(options):
-            op = '=ilike' if options.get('case_insensitive') else '='
-            domain = [(field_name, op, val)] + options.get('args', [])
-            company_domain_leaf = get_company_domain_leaf(
-                options.get('multi_comp_rule_xml_id'),
-                options.get('company_id', False))
-            if company_domain_leaf:
-                domain.append(company_domain_leaf)
-            return domain
-
-        if not options:
-            options = {}
-        domain = get_domain(options)
-        # Using sudo() because regular user might not have access to
-        # all objects. Searching among archived objects too.
-        # FIXME: sudo: prevent user from getting to records he has no
-        # access to.
-        return Model.with_context(active_test=False).sudo().search(
-            domain, count=count)
-
     # String manipulation helpers.
 
     @api.model
@@ -567,33 +483,6 @@ class Odootil(models.AbstractModel):
             amount = from_currency._convert(
                 amount, to_currency, order.company_id, date)
         return amount
-
-    # TODO: check for refactoring once related module is migrated.
-    @api.model
-    def get_o2m_field_for_inverse(self, Model, inverse_name):
-        """Return related o2m field using inverse_name (m2o).
-
-        Returns first found o2m field for inverse field.
-
-        Args:
-            Model (object): Model that has m2o field with name from
-                rel_field_name.
-            inverse_name (str): m2o field that is inverse field for
-                target o2m field.
-
-        Returns:
-            fields.One2Many: o2m field object.
-
-        """
-        parent_model_name = Model._fields[inverse_name].comodel_name
-        ParentModel = self.env[parent_model_name]
-        for field in ParentModel._fields.values():
-            if field.type == 'one2many' and field.inverse_name == inverse_name:
-                return field
-        raise ValueError(
-            "No one2many field found for inverse field '%s' with model '%s'" %
-            (inverse_name, parent_model_name)
-        )
 
     # Other constraint helpers
 
