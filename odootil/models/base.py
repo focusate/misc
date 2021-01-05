@@ -183,6 +183,10 @@ class Base(models.AbstractModel):
 
         For arguments related with get_name_search_domain, see its
         docstring.
+
+        Returns:
+            list of ids
+
         """
         domain = get_name_search_domain(
             name,
@@ -192,9 +196,7 @@ class Base(models.AbstractModel):
             operator=operator
         )
         uid = name_get_uid or self._uid
-        ids = self._search(domain, limit=limit, access_rights_uid=uid)
-        recs = self.browse(ids)
-        return models.lazy_name_get(recs.with_user(uid))
+        return self._search(domain, limit=limit, access_rights_uid=uid)
 
     # orderby transformation helpers.
 
@@ -399,8 +401,10 @@ class Base(models.AbstractModel):
 
         Args:
             fname (str): selection field name
+
         Returns:
             OrderedDict: selection mapping in OrderedDict form.
+
         """
         return collections.OrderedDict(self._fields[fname].selection)
 

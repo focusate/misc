@@ -7,7 +7,7 @@
     'license': 'OEEL-1',
     'author': "Focusate",
     'website': "http://www.focusate.eu",
-    'category': 'Technical/Tools',
+    'category': 'Hidden/Tools',
     'depends': [
         'web'
     ],

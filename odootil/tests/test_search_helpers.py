@@ -63,10 +63,9 @@ class TestSearchHelpers(TestOdootilCommon):
 
     def test_03_name_search_multi_leaf(self):
         """Search partners using name_search_multi_leaf."""
-        res = self.ResPartner.name_search_multi_leaf(
+        query_obj = self.ResPartner.name_search_multi_leaf(
             self.partner_1_name,
             ['name'],
             args=self.partner_1_search_args,
             operator='=')
-        self.assertEqual(len(res), 1)
-        self.assertEqual(res[0][0], self.partner_1.id)
+        self.assertEqual(self.ResPartner.browse(query_obj), self.partner_1)
