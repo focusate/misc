@@ -128,13 +128,13 @@ class OdootilSeq(models.AbstractModel):
         """Override search to also search using number field value."""
         search_keys = self._odootil_seq_search_keys
         if search_keys:
-            return self.env['odootil'].name_search_multi_leaf(
-                self._name,
+            query_obj = self.name_search_multi_leaf(
                 name,
                 search_keys,
                 args=args,
                 operator=operator,
                 limit=limit
             )
+            return self.browse(query_obj).name_get()
         return super(OdootilSeq, self).name_search(
             name, args=args, operator=operator, limit=limit)
