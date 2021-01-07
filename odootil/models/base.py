@@ -129,7 +129,7 @@ class Base(models.AbstractModel):
 
         """
         return self.__prepare_search_multicompany_method(
-            domain, options=options)()
+            domain, offset=offset, limit=limit, order=order, options=options)()
 
     @api.model
     def search_multicompany_count(self, domain, options=None):

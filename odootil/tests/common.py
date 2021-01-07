@@ -5,7 +5,8 @@ from odoo.tools.misc import mute_logger
 MODELS_PATH = 'odoo.models'
 BASE_MODELS_PATH = 'odoo.addons.base.models.ir_model'
 # Note. This path exists only if module base_fields_access is installed.
-BASE_FIELDS_MODELS_PATH = 'odoo.addons.base_fields_access.models.base_model'
+BASE_FIELDS_MODELS_PATH = (
+    'odoo.addons.base_fields_access.models.ir_model_fields_rule')
 SQL_DB_PATH = 'odoo.sql_db'
 # TODO: update all modules to use these paths.
 ACCESS_METHOD_PREFIX = 'check_access_'
