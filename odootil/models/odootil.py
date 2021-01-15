@@ -11,7 +11,7 @@ from odoo.exceptions import ValidationError, UserError
 from odoo.addons.base.models.ir_sequence import IrSequence
 
 # Common constants.
-PRIORITY = [(1, 'Low'), (2, 'Normal'), (3, 'High')]
+PRIORITY = [('low', 'Low'), ('normal', 'Normal'), ('high', 'High')]
 DATE_FMT = '%Y-%m-%d'
 DATETIME_FMT = '%Y-%m-%d %H:%M:%S'
 
