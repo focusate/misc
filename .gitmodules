@@ -1,0 +1,4 @@
+[submodule "external/oca-partner-contact"]
+	path = external/oca-partner-contact
+	url = https://github.com/focusate/oca-partner-contact.git
+	branch = 14.0

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-call="report_template_credentials.report_credentials">
+                <!-- Set bank values to display. -->
+                <t t-set="display_seller_bank" t-value="o.move_type in ('out_invoice', 'in_invoice')"/>
+                <t t-set="display_buyer_bank" t-value="o.move_type in ('in_refund', 'out_refund')"/>
+                <t t-set="bank_to_display" t-value="o.partner_bank_id"/>
+                <!-- By default, Seller's information is displayed on the left
+                side and Buyer's - on the right side. Seller is current company
+                if it's a Customer Invoice and vendor if it's a Vendor Invoice.
+                And it's opposite with Buyer.
+                -->
+                <t t-set="seller" t-value="get_seller(o)"/>
+                <t t-set="buyer" t-value="get_buyer(o)"/>
+                <!-- Display Salesperson's details if it's a Customer Invoice -->
+                <t t-set="display_salesperson" t-value="get_invoice_direction(o) == 'out'"/>
+            </t>
+            <!-- Leaving empty element 'address' because 'sale'
+                module extends this element by adding 'Shipping Address' -->
+            <address/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="assets_backend" name="report_assets" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/report_external_layout_simple/static/src/css/report_external_layout_simple.css"/>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record
+        id="decimal_precision_product_uom_report"
+        forcecreate="True"
+        model="decimal.precision"
+    >
+        <field name="name">Product Unit of Measure (Reports)</field>
+        <field name="digits">3</field>
+    </record>
+    <record
+        id="decimal_precision_product_price_report"
+        forcecreate="True"
+        model="decimal.precision"
+    >
+        <field name="name">Product Price (Reports)</field>
+        <field name="digits">2</field>
+    </record>
+</odoo>

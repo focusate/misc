@@ -1,0 +1,56 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_delivery_report_credentials
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-15 17:37+0000\n"
+"PO-Revision-Date: 2021-03-15 17:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_delivery_report_credentials
+#: model_terms:ir.ui.view,arch_db:stock_delivery_report_credentials.report_credentials
+msgid "<span>Customer Reference:</span>"
+msgstr "<span>Kliento numeris:</span>"
+
+#. module: stock_delivery_report_credentials
+#: model_terms:ir.ui.view,arch_db:stock_delivery_report_credentials.report_delivery_document_inherit
+msgid "<span>DELIVERY SLIP NO:</span>"
+msgstr "<span>KROVINIO VAŽTARAŠTIS NR.:</span>"
+
+#. module: stock_delivery_report_credentials
+#: model_terms:ir.ui.view,arch_db:stock_delivery_report_credentials.report_credentials
+msgid "<strong>RECEIVER:</strong><br/>"
+msgstr "<strong>GAVĖJAS:</strong><br/>"
+
+#. module: stock_delivery_report_credentials
+#: model_terms:ir.ui.view,arch_db:stock_delivery_report_credentials.report_credentials
+msgid "<strong>SENDER:</strong><br/>"
+msgstr "<strong>SIUNTĖJAS:</strong><br/>"
+
+#. module: stock_delivery_report_credentials
+#: model:ir.model,name:stock_delivery_report_credentials.model_report_stock_report_deliveryslip
+msgid "Delivery Slip Report"
+msgstr ""
+
+#. module: stock_delivery_report_credentials
+#: model:ir.model.fields,field_description:stock_delivery_report_credentials.field_report_stock_report_deliveryslip__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: stock_delivery_report_credentials
+#: model:ir.model.fields,field_description:stock_delivery_report_credentials.field_report_stock_report_deliveryslip__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_delivery_report_credentials
+#: model:ir.model.fields,field_description:stock_delivery_report_credentials.field_report_stock_report_deliveryslip____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"

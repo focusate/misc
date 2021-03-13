@@ -1,0 +1,95 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * report_external_layout_simple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-16 07:16+0000\n"
+"PO-Revision-Date: 2021-03-16 19:57+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: ja\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.styles_company_report_simple
+msgid ""
+"&amp;.o_report_external_layout_simple {\n"
+"                    h2, h3 {\n"
+"                        color:"
+msgstr ""
+"&amp;.o_report_external_layout_simple {\n"
+"                    h2, h3 {\n"
+"                        color:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.styles_company_report_simple
+msgid ""
+";\n"
+"                    }\n"
+"                    #informations strong {\n"
+"                        color:"
+msgstr ""
+";\n"
+"                    }\n"
+"                    #informations strong {\n"
+"                        color:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.styles_company_report_simple
+msgid ""
+";\n"
+"                    }\n"
+"                    #total strong{\n"
+"                        color:"
+msgstr ""
+";\n"
+"                    }\n"
+"                    #total strong{\n"
+"                        color:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.styles_company_report_simple
+msgid ""
+";\n"
+"                    }\n"
+"                    table {\n"
+"                        thead {\n"
+"                            color:"
+msgstr ""
+";\n"
+"                    }\n"
+"                    table {\n"
+"                        thead {\n"
+"                            color:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.external_layout_simple
+msgid "Email:"
+msgstr "Eメール:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.external_layout_simple
+msgid "Logo"
+msgstr "ロゴ"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.external_layout_simple
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.external_layout_simple
+msgid "Phone:"
+msgstr "電話番号:"
+
+#. module: report_external_layout_simple
+#: model_terms:ir.ui.view,arch_db:report_external_layout_simple.external_layout_simple
+msgid "Website:"
+msgstr "ウェブサイト:"

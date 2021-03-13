@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Update sale order reports to use custom (most suitable) paper format. -->
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+        <field name="paperformat_id" ref="report_external_layout_simple.paperformat_custom"/>
+    </record>
+    <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
+        <field name="paperformat_id" ref="report_external_layout_simple.paperformat_custom"/>
+    </record>
+</odoo>

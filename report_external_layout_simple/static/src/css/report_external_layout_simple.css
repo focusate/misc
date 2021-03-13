@@ -1,0 +1,9 @@
+.o_report_external_layout_simple_underline {
+    border-bottom: 1px solid black;
+}
+.o_report_external_layout_simple_top_line {
+    border-top: 1px solid black;
+}
+.o_report_external_layout_simple_li_13 > li {
+    font-size: 13px;
+}

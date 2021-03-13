@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Template for document header (sender/receiver credentials). -->
+    <template id="report_credentials">
+        <!-- For some reason `margin-left: -15px;` is set by default,
+        which misaligns row. -->
+        <div class="row" style="margin-top: 15px; margin-bottom: 15px; margin-left: 0px;">
+            <!-- Sender's credentials. -->
+            <div name="sender_address" class="col-6">
+                <strong>SENDER:</strong><br/>
+                <t t-set="partner" t-value="get_sender(o)"/>
+                <t t-call="report_template_credentials.partner_address"/>
+                <t t-call="report_template_credentials.partner_codes"/>
+            </div>
+            <t t-set="partner" t-value="false"/>
+            <!-- Receiver's credentials. -->
+            <div name="receiver_address" class="col-6">
+                <strong>RECEIVER:</strong><br/>
+                <t t-set="partner" t-value="get_receiver(o)"/>
+                <t t-call="report_template_credentials.partner_address"/>
+                <t t-call="report_template_credentials.partner_codes">
+                    <t t-set="partner" t-value="partner.commercial_partner_id"/>
+                </t>
+                <div t-if="o.sale_id.client_order_ref">
+                    <span>Customer Reference:</span>
+                    <span t-field="o.sale_id.client_order_ref"/>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Remove original elements added by `sale_stock`, because they must be moved
+        to the other place. -->
+    <template id="report_delivery_document_inherit_sale_stock_inherit" inherit_id="sale_stock.report_delivery_document_inherit_sale_stock">
+        <xpath expr="//div[contains(@t-if, 'sale_id.client_order_ref')]" position="replace"/>
+    </template>
+    <template
+        id="report_delivery_document_inherit"
+        inherit_id="stock.report_delivery_document"
+    >
+        <!-- Hide old title. -->
+        <xpath expr="//div[hasclass('page')]/h2" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+        <xpath expr="//t[@name='partner_header']" position="attributes">
+            <!-- To hide it. -->
+            <attribute name="t-if">False</attribute>
+        </xpath>
+        <!-- Add new partner header. -->
+        <xpath expr="//t[@name='partner_header']" position="before">
+            <t t-call="stock_delivery_report_credentials.report_credentials"/>
+            <h2>
+                <!-- TODO: do we really need this long title name?.. -->
+                <span>DELIVERY SLIP NO:</span>
+                <span t-field="o.name"/>
+            </h2>
+        </xpath>
+    </template>
+</odoo>

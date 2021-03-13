@@ -17,6 +17,8 @@ env:
   global:
   - VERSION="14.0" TESTS="0" LINT_CHECK="0"
   - PHANTOMJS_VERSION="latest"
+  # Relative path starting from superproject.
+  - PATH_SUBMODULES="external/oca-partner-contact"
   # To run javascript tests via Phantom JS.
   # - INCLUDE_EXTRA="web"
   matrix:

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="partner_address">
+        <!-- By the laws, main name must be name of a commercial partner
+            and if selected partner is not a commercial partner -
+            credentials must include that partner as representative. -->
+        <div name="commercial_partner">
+            <strong><span t-field="partner.commercial_partner_id.name"/></strong><br/>
+            <span t-esc="', '.join(filter(None, [partner.street, partner.street2, partner.zip, partner.city, partner.country_id.name]))"/>
+        </div>
+        <div t-if="not partner.is_commercial_partner">
+            <strong>Representative:</strong>
+            <span t-field="partner.name"/>
+        </div>
+        <div t-if="partner.phone">
+            Phone:
+            <span t-field="partner.phone"/>
+        </div>
+    </template>
+    <template id="partner_codes">
+        <div t-if="partner.vat">
+            <t t-if="partner.country_id.vat_label" t-esc="partner.country_id.vat_label" name="vat_label"/>
+            <t t-else="">TAX ID</t>: <span t-field="partner.vat"/>
+        </div>
+        <div t-if="partner.company_registry">
+            Company Code:
+            <span t-field="partner.company_registry"/>
+        </div>
+    </template>
+    <template id="partner_credentials">
+        <t t-call="report_template_credentials.partner_address"/>
+        <t t-set="partner" t-value="partner.commercial_partner_id"/>
+        <t t-call="report_template_credentials.partner_codes"/>
+    </template>
+    <template id="bank_account_info">
+        <div t-if="bank_account">
+            <div t-if="bank_account.bank_id">
+                <span>Bank:</span>
+                <span t-field="bank_account.bank_id.name"/>
+                <t t-if="bank_account.bank_id.bic">
+                    (<span t-field="bank_account.bank_id.bic"/>)
+                </t>
+            </div>
+            <div name="bank_account_number">
+                <span>Bank Account:</span>
+                <span t-field="bank_account.acc_number"/>
+            </div>
+        </div>
+    </template>
+    <template id="report_credentials">
+        <div class="row">
+            <div name="seller_address" class="col-6">
+                <p><strong>Seller:</strong></p>
+                <t t-call="report_template_credentials.partner_credentials">
+                    <t t-set="partner" t-value="seller"/>
+                </t>
+                <div t-if="display_salesperson and o.user_id">
+                    <span>Salesperson:</span>
+                    <span t-esc="', '.join(filter(None, [o.user_id.name, o.user_id.phone, o.user_id.mobile]))"/>
+                </div>
+                <t t-if="display_seller_bank and bank_to_display">
+                    <t t-call="report_template_credentials.bank_account_info">
+                        <t t-set="bank_account" t-value="bank_to_display"/>
+                    </t>
+                </t>
+            </div>
+            <div name="buyer_address" class="col-6">
+                <p><strong>Buyer:</strong></p>
+                <t t-call="report_template_credentials.partner_credentials">
+                    <t t-set="partner" t-value="buyer"/>
+                </t>
+                <t t-if="display_buyer_bank and bank_to_display">
+                    <t t-call="report_template_credentials.bank_account_info">
+                        <t t-set="bank_account" t-value="bank_to_display"/>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </template>
+</odoo>

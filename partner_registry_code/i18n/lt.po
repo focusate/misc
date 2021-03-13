@@ -1,0 +1,71 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_registry_code
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-20 09:07+0000\n"
+"PO-Revision-Date: 2020-11-20 09:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_registry_code
+#: model:ir.model,name:partner_registry_code.model_res_company
+msgid "Companies"
+msgstr "Įmonės"
+
+#. module: partner_registry_code
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_partner__company_registry
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_users__company_registry
+msgid "Company Registry"
+msgstr "Įmonės kodas"
+
+#. module: partner_registry_code
+#: code:addons/partner_registry_code/models/res_partner.py:0
+#, python-format
+msgid ""
+"Company Registry code must be unique per commercial partner.\n"
+"There might be a partner which belongs to another company or an archived partner with the same code too. Company Registry: %s"
+msgstr ""
+"Įmonės kodas privalo būti unikalus tarp komercinių partnerių.\n"
+"Gali būti, kad partneris su tokiu pačiu kodu yra priskirtas kitai įmonei arba yra suarchyvuotas. Įmonės kodas: %s"
+
+#. module: partner_registry_code
+#: model:ir.model,name:partner_registry_code.model_res_partner
+msgid "Contact"
+msgstr "Kontaktai"
+
+#. module: partner_registry_code
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_company__display_name
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: partner_registry_code
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_company__id
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: partner_registry_code
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_company____last_update
+#: model:ir.model.fields,field_description:partner_registry_code.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"
+
+#. module: partner_registry_code
+#: model:ir.model.fields,help:partner_registry_code.field_res_partner__company_registry
+#: model:ir.model.fields,help:partner_registry_code.field_res_users__company_registry
+msgid "Registry code"
+msgstr "Registro kodas"
+
+#. module: partner_registry_code
+#: model_terms:ir.ui.view,arch_db:partner_registry_code.view_partner_form_inherit
+msgid "e.g. 300341211"
+msgstr "pvz. 300341211"

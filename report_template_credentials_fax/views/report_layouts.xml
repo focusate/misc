@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template
+        id="partner_address_inherit"
+        inherit_id="report_template_credentials.partner_address"
+    >
+        <xpath expr="//div[@t-if='partner.phone']" position="after">
+            <div t-if="partner.fax">
+                <span>Fax:</span> <span t-field="partner.fax"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

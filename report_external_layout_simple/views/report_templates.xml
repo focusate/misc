@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="external_layout_simple">
+        <div
+            t-attf-class="o_company_#{company.id}_layout header"
+            t-att-style="report_header_style"
+        >
+            <div class="row">
+                <div class="col-3 mb4">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                </div>
+                <div class="col-9 text-right" style="margin-top: 22px;" t-field="company.report_header" name="moto"/>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-12">
+                    <div class="o_report_external_layout_simple_underline"/>
+                </div>
+            </div>
+        </div>
+        <div
+            t-attf-class="o_company_#{company.id}_layout article o_report_external_layout_simple"
+            t-att-data-oe-model="o and o._name"
+            t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')"
+        >
+            <t t-raw="0" />
+        </div>
+        <div t-attf-class="footer o_report_external_layout_simple_footer o_company_#{company.id}_layout">
+            <div class="text-center o_report_external_layout_simple_top_line">
+                <ul class="list-inline mb4 o_report_external_layout_simple_li_13" name="contact_info">
+                    <li class="list-inline-item"><span t-field="company.display_name"/></li>
+                    <li t-if="company.phone" class="list-inline-item">Phone: <span t-field="company.phone"/></li>
+                    <li t-if="company.email" class="list-inline-item">Email: <span t-field="company.email"/></li>
+                    <li t-if="company.website" class="list-inline-item">Website: <span t-field="company.website"/></li>
+                </ul>
+                <!-- Bank Accounts should be defined in Report Footer for each company. -->
+                <div name="financial_infos">
+                    <span t-field="company.report_footer"/>
+                </div>
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Add support for custom colors via layout wizard. -->
+    <template id="styles_company_report_simple" inherit_id="web.styles_company_report">
+        <xpath expr='//t[@t-elif="layout == &apos;web.external_layout_standard&apos;"]' position="after">
+            <!-- Using same colored parts as in layout_standard + h3 -->
+            <t t-elif="layout == 'report_external_layout_simple.external_layout_simple'">
+                &amp;.o_report_external_layout_simple {
+                    h2, h3 {
+                        color: <t t-esc='primary'/>;
+                    }
+                    #informations strong {
+                        color: <t t-esc='secondary'/>;
+                    }
+                    #total strong{
+                        color: <t t-esc='primary'/>;
+                    }
+                    table {
+                        thead {
+                            color: <t t-esc='secondary'/>;
+                        }
+                    }
+                }
+            </t>
+        </xpath>
+    </template>
+</odoo>

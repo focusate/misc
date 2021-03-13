@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Using primary="True" here to copy template instead of updating it. -->
+    <template
+        id="report_credentials_sale"
+        inherit_id="report_template_credentials.report_credentials"
+        primary="True"
+    >
+        <xpath expr="//div[@name='buyer_address']" position="inside">
+            <div
+                t-if="doc.partner_shipping_id == doc.partner_invoice_id
+                                 and doc.partner_invoice_id != doc.partner_id
+                                 or doc.partner_shipping_id != doc.partner_invoice_id"
+                name="invoice_shipping_address"
+                 >
+                    <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and Shipping Address:</strong>
+                    <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing Address:</strong>
+                    <div t-field="doc.partner_invoice_id"
+                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                    <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                        <strong>Shipping Address:</strong>
+                        <div t-field="doc.partner_shipping_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                    </t>
+            </div>
+        </xpath>
+    </template>
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <!-- NOTE. we replace t-set="address", which means
+        t-set="information_block" is also gone, which is
+        invoice/shipping block. We re-add that part on
+        sale_order_report_credentials.report_credentials_sale template
+        -->
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <div name="partner_header" style="margin-bottom: 15px;">
+                <t t-call="sale_order_report_credentials.report_credentials_sale">
+                    <t t-set="o" t-value="doc"/>
+                    <t t-set="seller" t-value="doc.company_id.partner_id"/>
+                    <t t-set="display_salesperson" t-value="True"/>
+                    <t t-set="buyer" t-value="doc.company_id.partner_id"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>
