@@ -6,7 +6,7 @@
                 <!-- Set bank values to display. -->
                 <t t-set="display_seller_bank" t-value="o.move_type in ('out_invoice', 'in_invoice')"/>
                 <t t-set="display_buyer_bank" t-value="o.move_type in ('in_refund', 'out_refund')"/>
-                <t t-set="bank_to_display" t-value="o.partner_bank_id"/>
+                <t t-set="banks_to_display" t-value="get_bank_accounts_to_display(o)"/>
                 <!-- By default, Seller's information is displayed on the left
                 side and Buyer's - on the right side. Seller is current company
                 if it's a Customer Invoice and vendor if it's a Vendor Invoice.

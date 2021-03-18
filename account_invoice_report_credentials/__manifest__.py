@@ -14,6 +14,7 @@
         # misc
         'report_template_credentials',
         'report_external_layout_simple',
+        'partner_bank_extended',
     ],
     'data': [
         'data/ir_actions_report_data.xml',

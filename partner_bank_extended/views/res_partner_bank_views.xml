@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_bank_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.bank.form.reports</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <field name="sequence" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+            <field name="acc_type" position="after">
+                <field
+                    name="report_ref_ids"
+                    widget="many2many_tags"
+                    options="{'no_create_edit': True, 'no_quick_create': True}"
+                />
+            </field>
+            <field name="partner_id" position="after">
+                <field name="is_company_partner"/>
+            </field>
+        </field>
+    </record>
+</odoo>

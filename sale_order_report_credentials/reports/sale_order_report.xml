@@ -36,6 +36,18 @@
                 <t t-call="sale_order_report_credentials.report_credentials_sale">
                     <t t-set="o" t-value="doc"/>
                     <t t-set="seller" t-value="doc.company_id.partner_id"/>
+                    <!-- TODO: move this to python -->
+                    <t t-if="is_pro_forma">
+                        <t t-set="report_name" t-value="'sale.report_saleorder_pro_forma'"/>
+                    </t>
+                    <t t-else="">
+                        <t t-set="report_name" t-value="'sale.report_saleorder'"/>
+                    </t>
+                    <t t-set="display_seller_bank" t-value="True"/>
+                    <t
+                        t-set="banks_to_display"
+                        t-value="o.env['ir.actions.report'].search([('report_name', '=', report_name)]).mapped('partner_bank_ref_ids').filtered(lambda r: r.company_id == o.company_id or not r.company_id)"
+                    />
                     <t t-set="display_salesperson" t-value="True"/>
                     <t t-set="buyer" t-value="doc.company_id.partner_id"/>
                 </t>

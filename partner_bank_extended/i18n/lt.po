@@ -1,0 +1,65 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_bank_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-19 18:51+0000\n"
+"PO-Revision-Date: 2021-03-19 18:51+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_bank_extended
+#: model:ir.model,name:partner_bank_extended.model_res_partner_bank
+#: model:ir.model.fields,field_description:partner_bank_extended.field_ir_actions_report__partner_bank_ref_ids
+msgid "Bank Accounts"
+msgstr "Banko sąskaitos"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,help:partner_bank_extended.field_ir_actions_report__partner_bank_ref_ids
+msgid "Bank accounts that are related with this report"
+msgstr "Banko sąskaitos, kurios yra susijusios su šia ataskaita"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,field_description:partner_bank_extended.field_ir_actions_report__display_name
+#: model:ir.model.fields,field_description:partner_bank_extended.field_res_partner_bank__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,field_description:partner_bank_extended.field_ir_actions_report__id
+#: model:ir.model.fields,field_description:partner_bank_extended.field_res_partner_bank__id
+msgid "ID"
+msgstr ""
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,field_description:partner_bank_extended.field_res_partner_bank__is_company_partner
+msgid "Is Our Bank Account"
+msgstr "yra mūsų bank sąskaita"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,field_description:partner_bank_extended.field_ir_actions_report____last_update
+#: model:ir.model.fields,field_description:partner_bank_extended.field_res_partner_bank____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"
+
+#. module: partner_bank_extended
+#: model:ir.model,name:partner_bank_extended.model_ir_actions_report
+msgid "Report Action"
+msgstr "Ataskaitos veiksmas"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,field_description:partner_bank_extended.field_res_partner_bank__report_ref_ids
+msgid "Reports"
+msgstr "Ataskaitos"
+
+#. module: partner_bank_extended
+#: model:ir.model.fields,help:partner_bank_extended.field_res_partner_bank__report_ref_ids
+msgid "Reports that are related with this bank account"
+msgstr "Ataskaitos, kurios yra susijusios su šia banko sąskaita"

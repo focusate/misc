@@ -47,6 +47,13 @@
             </div>
         </div>
     </template>
+    <template id="bank_accounts_info">
+        <t t-foreach="banks_to_display" t-as="bank_to_display">
+            <t t-call="report_template_credentials.bank_account_info">
+                <t t-set="bank_account" t-value="bank_to_display"/>
+            </t>
+        </t>
+    </template>
     <template id="report_credentials">
         <div class="row">
             <div name="seller_address" class="col-6">
@@ -58,10 +65,8 @@
                     <span>Salesperson:</span>
                     <span t-esc="', '.join(filter(None, [o.user_id.name, o.user_id.phone, o.user_id.mobile]))"/>
                 </div>
-                <t t-if="display_seller_bank and bank_to_display">
-                    <t t-call="report_template_credentials.bank_account_info">
-                        <t t-set="bank_account" t-value="bank_to_display"/>
-                    </t>
+                <t t-if="display_seller_bank and banks_to_display">
+                    <t t-call="report_template_credentials.bank_accounts_info"/>
                 </t>
             </div>
             <div name="buyer_address" class="col-6">
@@ -69,10 +74,8 @@
                 <t t-call="report_template_credentials.partner_credentials">
                     <t t-set="partner" t-value="buyer"/>
                 </t>
-                <t t-if="display_buyer_bank and bank_to_display">
-                    <t t-call="report_template_credentials.bank_account_info">
-                        <t t-set="bank_account" t-value="bank_to_display"/>
-                    </t>
+                <t t-if="display_buyer_bank and banks_to_display">
+                    <t t-call="report_template_credentials.bank_accounts_info"/>
                 </t>
             </div>
         </div>
