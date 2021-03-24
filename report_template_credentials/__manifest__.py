@@ -11,6 +11,8 @@
     'depends': [
         # misc
         'partner_registry_code',
+        'base_address_format',
+        'partner_bank_extended',
     ],
     'data': [
         'views/report_layouts.xml',

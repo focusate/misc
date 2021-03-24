@@ -6,7 +6,9 @@
             credentials must include that partner as representative. -->
         <div name="commercial_partner">
             <strong><span t-field="partner.commercial_partner_id.name"/></strong><br/>
-            <span t-esc="', '.join(filter(None, [partner.street, partner.street2, partner.zip, partner.city, partner.country_id.name]))"/>
+            <t t-call="base_address_format.address_format">
+                <t t-set="address" t-value="partner"/>
+            </t>
         </div>
         <div t-if="not partner.is_commercial_partner">
             <strong>Representative:</strong>
@@ -35,15 +37,23 @@
     <template id="bank_account_info">
         <div t-if="bank_account">
             <div t-if="bank_account.bank_id">
-                <span>Bank:</span>
-                <span t-field="bank_account.bank_id.name"/>
-                <t t-if="bank_account.bank_id.bic">
-                    (<span t-field="bank_account.bank_id.bic"/>)
-                </t>
+                <div name="bank_info">
+                    <span>Bank:</span>
+                    <span t-field="bank_account.bank_id.display_name"/>
+                </div>
+                <div name="bank_address">
+                    <t t-call="base_address_format.address_format">
+                        <t t-set="address" t-value="bank_account.bank_id"/>
+                    </t>
+                </div>
             </div>
             <div name="bank_account_number">
                 <span>Bank Account:</span>
                 <span t-field="bank_account.acc_number"/>
+            </div>
+            <div t-if="bank_account.account_holder_name_in_report">
+                <span>Bank Account Holder:</span>
+                <span t-esc="bank_account._account_holder_name"/>
             </div>
         </div>
     </template>

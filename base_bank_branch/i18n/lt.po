@@ -1,0 +1,107 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* base_bank_branch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-28 11:53+0000\n"
+"PO-Revision-Date: 2021-03-28 11:53+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_bank_branch
+#: model:ir.model,name:base_bank_branch.model_res_bank
+msgid "Bank"
+msgstr "Bankas"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "Branch"
+msgstr "Padalinys"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "Branch Address"
+msgstr "Banko padalinio "
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__child_ids
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.view_res_bank_form_inherit
+msgid "Branches"
+msgstr "Padaliniai"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "City"
+msgstr "Miestas"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "Country"
+msgstr "Šalis"
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__has_childs
+msgid "Has Branches"
+msgstr "Turi padalinių"
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__id
+msgid "ID"
+msgstr ""
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__is_branch
+msgid "Is Branch"
+msgstr "Yra padalinys"
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__parent_id
+msgid "Main Bank"
+msgstr "Pagrindinis bankas"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.view_res_bank_form_inherit
+msgid "Main Bank.."
+msgstr "Pagrindinis bankas.."
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "State"
+msgstr "Valstija"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "Street 2..."
+msgstr "Gatvė 2..."
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "Street..."
+msgstr "Gatvė..."
+
+#. module: base_bank_branch
+#: model:ir.model.fields,field_description:base_bank_branch.field_res_bank__use_bank_address
+msgid "Use Main Bank Address"
+msgstr "Naudoti pagrindinio banko adresą"
+
+#. module: base_bank_branch
+#: model_terms:ir.ui.view,arch_db:base_bank_branch.res_bank_branch_view_form
+msgid "ZIP"
+msgstr "Pašto kodas"

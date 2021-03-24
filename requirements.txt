@@ -1,5 +1,5 @@
 yattag==1.14.0
-footil >= 0.24.0
+footil >= 0.26.0
 num2words==0.5.10
 validators==0.18.1
 mergedeep==1.3.0

@@ -4,7 +4,7 @@
     'name': "Company Reference to Partner",
     'version': '14.0.1.0.0',
     'summary': 'company partner, reference',
-    'license': 'OEEL-1',
+    'license': 'LGPL-3',
     'author': "Focusate",
     'website': "http://www.focusate.eu",
     'category': 'Hidden',

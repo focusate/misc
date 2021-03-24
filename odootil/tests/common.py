@@ -64,6 +64,7 @@ class TestBaseCommon(common.SavepointCase):
         """Set up common data for all purpose tests."""
         super().setUpClass()
         # Models.
+        cls.ResPartner = cls.env['res.partner']
         cls.IrModel = cls.env['ir.model']
         cls.IrConfigParameter = cls.env['ir.config_parameter']
         # Records.

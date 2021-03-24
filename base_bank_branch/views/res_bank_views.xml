@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_res_bank_tree_inherit" model="ir.ui.view">
+        <field name="name">res.bank.tree.branch</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_tree"/>
+        <field name="arch" type="xml">
+            <field name="country" position="after">
+                <field name="is_branch"/>
+                <field name="parent_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_res_bank_form_inherit" model="ir.ui.view">
+        <field name="name">res.bank.form.branch</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form"/>
+        <field name="arch" type="xml">
+            <group name="bank_details" position="before">
+                <group
+                    name="branch_option"
+                    col="4"
+                    attrs="{'invisible': [('has_childs', '=', True)]}"
+                >
+                    <field name="is_branch"/>
+                    <field
+                        name="parent_id"
+                        placeholder="Main Bank.."
+                        attrs="{'invisible': [('is_branch', '=', False)], 'required': [('is_branch', '=', True)]}"
+                        domain="[('is_branch', '=', False), ('id', '!=', id)]"
+                        context="{'default_is_branch': False}"
+                    />
+                </group>
+            </group>
+            <label for="street" position="before">
+                <field
+                    name="use_bank_address"
+                    attrs="{'invisible': ['|', ('is_branch', '=', False), ('parent_id', '=', False)]}"
+                />
+            </label>
+            <!-- Make address fields readonly if using bank address. -->
+            <field name="street" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <field name="street2" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <field name="zip" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <field name="state" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <field name="country" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_branch', '=', True), ('use_bank_address', '=', True)]}</attribute>
+            </field>
+            <sheet position="inside">
+                <notebook>
+                    <page
+                        string="Branches"
+                        name="branches"
+                        attrs="{'invisible': [('is_branch', '=', True)]}"
+                    >
+                        <field
+                            name="child_ids"
+                            context="{'default_is_branch': True, 'form_view_ref': 'base_bank_branch.res_bank_branch_view_form'}"
+                        >
+                            <tree>
+                                <field name="name"/>
+                                <field name="bic"/>
+                                <field name="country"/>
+                            </tree>
+                        </field>
+                        <field name="has_childs" invisible="1"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+
+    <record id="res_bank_branch_view_form" model="ir.ui.view">
+        <field name="name">res.bank.form.branch</field>
+        <field name="model">res.bank</field>
+        <field name="arch" type="xml">
+            <form string="Branch">
+                <sheet>
+                    <group name="bank_details" col="4">
+                        <field name="name"/>
+                        <field name="bic"/>
+                        <field name="is_branch" invisible="1"/>
+                        <field name="parent_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <group name="address_details">
+                            <field name="use_bank_address"/>
+                            <label
+                                for="street"
+                                string="Branch Address"
+                                attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                            />
+                            <div class="o_address_format">
+                                <field
+                                    name="street"
+                                    placeholder="Street..."
+                                    class="o_address_street"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                                <field
+                                    name="street2"
+                                    placeholder="Street 2..."
+                                    class="o_address_street"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                                <field
+                                    name="city"
+                                    placeholder="City"
+                                    class="o_address_city"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                                <field
+                                    name="state"
+                                    class="o_address_state"
+                                    placeholder="State"
+                                    options="{'no_open': True}"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                                <field
+                                    name="zip"
+                                    placeholder="ZIP"
+                                    class="o_address_zip"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                                <field
+                                    name="country"
+                                    placeholder="Country"
+                                    class="o_address_country"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    attrs="{'readonly': [('use_bank_address', '=', True)]}"
+                                />
+                            </div>
+                        </group>
+                        <group name="communication_details">
+                            <field name="phone" class="o_force_ltr"/>
+                            <field name="email" widget="email"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

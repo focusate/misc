@@ -18,3 +18,15 @@ class ResPartnerBank(models.Model):
         string="Reports",
         help="Reports that are related with this bank account"
     )
+    account_holder_name_in_report = fields.Boolean(
+        "Include Account Holder Name In Reports",
+        help="Will use Account Holder name from related partner if custom "
+        "name not specified on account.")
+
+    @property
+    def _account_holder_name(self):
+        self.ensure_one()
+        # Following similar approach as in SEPA module.
+        # NOTE. Technically partner name can be False (depending on type
+        # ), so defaulting to empty string to make sure it won't crash.
+        return (self.acc_holder_name or self.partner_id.name or '')[:71]

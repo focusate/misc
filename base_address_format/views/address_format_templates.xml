@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="address_format">
+        <!-- Object set must have inherited from address.format.mixin -->
+        <div
+            t-esc="address.address_interpolate()"
+            class="o_base_address_format_line_break"
+        />
+    </template>
+</odoo>

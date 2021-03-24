@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.form.address.format</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='business_documents_setting_container']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box" id="base_address_format_usage">
+                    <div class="o_setting_left_pane">
+                        <field name="use_country_address_format"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="use_country_address_format"/>
+                        <div class="text-muted">
+                            Format addresses using related country address format (Layout in Reports field).
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="base_address_format_default">
+<!--                     <div class="o_setting_left_pane">
+                        <field name="related_default_address_format"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="related_default_address_format"/>
+                        <div class="text-muted">
+                            Default address format if country has no address format specified or country address format usage is disabled.
+                        </div>
+                    </div> -->
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Default Address Format</span>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                        <div class="text-muted">
+                            Default address format if country has no address format specified or country address format usage is disabled.
+                        </div>
+                        <div class="mt16">
+                            <!-- Forcing width so address layout would fit better. -->
+                            <field name="related_default_address_format" style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

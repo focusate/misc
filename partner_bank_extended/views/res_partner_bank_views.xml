@@ -13,6 +13,13 @@
                     name="report_ref_ids"
                     widget="many2many_tags"
                     options="{'no_create_edit': True, 'no_quick_create': True}"
+                    attrs="{'invisible': [('is_company_partner', '=', False)]}"
+                />
+            </field>
+            <field name="acc_holder_name" position="after">
+                <field
+                    name="account_holder_name_in_report"
+                    attrs="{'invisible': [('is_company_partner', '=', False)]}"
                 />
             </field>
             <field name="partner_id" position="after">

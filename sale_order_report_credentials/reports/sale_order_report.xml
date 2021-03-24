@@ -49,7 +49,7 @@
                         t-value="o.env['ir.actions.report'].search([('report_name', '=', report_name)]).mapped('partner_bank_ref_ids').filtered(lambda r: r.company_id == o.company_id or not r.company_id)"
                     />
                     <t t-set="display_salesperson" t-value="True"/>
-                    <t t-set="buyer" t-value="doc.company_id.partner_id"/>
+                    <t t-set="buyer" t-value="doc.partner_id"/>
                 </t>
             </div>
         </xpath>

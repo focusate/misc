@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* base_address_format
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-28 08:35+0000\n"
+"PO-Revision-Date: 2021-03-28 08:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_address_format
+#: model_terms:ir.ui.view,arch_db:base_address_format.res_config_settings_view_form_inherit
+msgid ""
+"<span class=\"o_form_label\">Default Address Format</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+"<span class=\"o_form_label\">Adreso formatas pagal nutylėjimą</span>\n"
+"                        <span class=\"fa fa-lg fa-building-o\" title=\"Parinktos reikšmės yra specifinės esamai įmonei.\" aria-label=\"Parinktos reikšmės yra specifinės esamai įmonei.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+
+#. module: base_address_format
+#: model:ir.model,name:base_address_format.model_address_format_mixin
+msgid "Address Format Mixin"
+msgstr "Adreso formato miksinas"
+
+#. module: base_address_format
+#: model:ir.model,name:base_address_format.model_res_bank
+msgid "Bank"
+msgstr "Bankas"
+
+#. module: base_address_format
+#: model:ir.model,name:base_address_format.model_res_company
+msgid "Companies"
+msgstr "Įmonės"
+
+#. module: base_address_format
+#: model:ir.model,name:base_address_format.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigūracijos nustatymai"
+
+#. module: base_address_format
+#: model:ir.model,name:base_address_format.model_res_partner
+msgid "Contact"
+msgstr "Kontaktai"
+
+#. module: base_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_res_company__default_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_res_config_settings__related_default_address_format
+msgid "Default Address Format"
+msgstr "Adreso formatas pagal nutylėjimą"
+
+#. module: base_address_format
+#: model_terms:ir.ui.view,arch_db:base_address_format.res_config_settings_view_form_inherit
+msgid ""
+"Default address format if country has no address format specified or country"
+" address format usage is disabled."
+msgstr "Adreso formatas pagal nutylėjimą jeigu šalis neturi nurodyto formato arba šalies adreso formato naudojimas yra išjungtas."
+
+#. module: base_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_address_format_mixin__display_name
+#: model:ir.model.fields,field_description:base_address_format.field_res_bank__display_name
+#: model:ir.model.fields,field_description:base_address_format.field_res_company__display_name
+#: model:ir.model.fields,field_description:base_address_format.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:base_address_format.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: base_address_format
+#: model_terms:ir.ui.view,arch_db:base_address_format.res_config_settings_view_form_inherit
+msgid ""
+"Format addresses using related country address format (Layout in Reports "
+"field)."
+msgstr "Formatuokite adresus naudojant susijusios šalies adreso formatą (laukas Išdėstymas ataskaitose)"
+
+#. module: base_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_address_format_mixin__id
+#: model:ir.model.fields,field_description:base_address_format.field_res_bank__id
+#: model:ir.model.fields,field_description:base_address_format.field_res_company__id
+#: model:ir.model.fields,field_description:base_address_format.field_res_config_settings__id
+#: model:ir.model.fields,field_description:base_address_format.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: base_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_address_format_mixin____last_update
+#: model:ir.model.fields,field_description:base_address_format.field_res_bank____last_update
+#: model:ir.model.fields,field_description:base_address_format.field_res_company____last_update
+#: model:ir.model.fields,field_description:base_address_format.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:base_address_format.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Paskutinį kartą keista"
+
+#. module: base_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_res_company__use_country_address_format
+#: model:ir.model.fields,field_description:base_address_format.field_res_config_settings__use_country_address_format
+msgid "Use Country Address Format"
+msgstr "Naudoti šalies formato adresą"
