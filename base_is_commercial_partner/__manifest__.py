@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Is Partner Commercial Entity",
-    'version': '14.0.3.0.0-rc.1',
+    'version': '15.0.3.0.0-rc.1',
     'summary': 'Identify if partner is commercial entity',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -15,5 +15,5 @@
     'data': [
         'views/res_partner_views.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

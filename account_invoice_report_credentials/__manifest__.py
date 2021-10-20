@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Account Invoice Report Credentials",
-    'version': '14.0.2.0.0-rc.1',
+    'version': '15.0.2.0.0-rc.1',
     'license': 'LGPL-3',
     'summary': 'Account, Invoice, Report, credentials',
     'author': "Focusate",
@@ -20,5 +20,5 @@
         'data/ir_actions_report_data.xml',
         'reports/account_invoice_report.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

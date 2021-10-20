@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': 'Partners Company Registry Code',
-    'version': '14.0.4.0.0-rc.1',
+    'version': '15.0.4.0.0-rc.1',
     'summary': 'partner, company, code, registry',
     'license': 'LGPL-3',
     'author': 'Focusate',
@@ -18,7 +18,7 @@
     'data': [
         'views/res_partner_views.xml',
     ],
-    'installable': True,
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

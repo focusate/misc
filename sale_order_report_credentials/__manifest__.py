@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Sale Order Report Credentials",
-    'version': '14.0.1.0.0',
+    'version': '15.0.1.0.0',
     'summary': 'sale order, report, credentials',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -20,5 +20,5 @@
         'data/ir_actions_report_data.xml',
         'reports/sale_order_report.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

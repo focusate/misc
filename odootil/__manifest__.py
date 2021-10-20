@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Odoo Utilities",
-    'version': '14.0.3.0.0-rc.1',
+    'version': '15.0.3.0.0-rc.1',
     'summary': 'odoo, utilities, helper methods',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -18,5 +18,5 @@
         'security/ir.model.access.csv',
         'views/odootil.xml'
     ],
-    'installable': True,
+    'installable': False,
 }

@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Delivery Slip Report Credentials",
-    'version': '14.0.1.0.0',
+    'version': '15.0.1.0.0',
     'license': 'LGPL-3',
     'summary': 'stock, delivery, slip, report, credentials',
     'author': "Focusate",
@@ -19,5 +19,5 @@
         'data/ir_actions_report_data.xml',
         'reports/stock_report_deliveryslip.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

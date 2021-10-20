@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Decimal Precision for Reports",
-    'version': '14.0.2.0.0-rc.1',
+    'version': '15.0.2.0.0-rc.1',
     'license': 'LGPL-3',
     'summary': 'decimal precision',
     'author': "Focusate",
@@ -15,5 +15,5 @@
     'data': [
         'data/decimal_precision_data.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

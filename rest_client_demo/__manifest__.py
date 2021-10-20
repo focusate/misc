@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "REST Client Demo",
-    'version': '14.0.2.0.0-rc.1',
+    'version': '15.0.2.0.0-rc.1',
     'summary': 'rest, client, manager, demo',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -16,5 +16,5 @@
         'security/ir.model.access.csv',
         'security/test_models_security.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

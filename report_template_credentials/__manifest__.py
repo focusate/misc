@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Credentials for Report Template",
-    'version': '14.0.3.0.0-rc.1',
+    'version': '15.0.3.0.0-rc.1',
     'summary': 'Credentials, Report, Template, Buyer, Seller',
     'license': 'LGPL-3',
     'author': "Focusate",
@@ -15,5 +15,5 @@
     'data': [
         'views/report_layouts.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

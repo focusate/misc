@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 {
     'name': "Company Reference to Partner",
-    'version': '14.0.1.0.0',
+    'version': '15.0.1.0.0',
     'summary': 'company partner, reference',
     'license': 'OEEL-1',
     'author': "Focusate",
@@ -11,5 +11,5 @@
     'depends': [
         'base'
     ],
-    'installable': True,
+    'installable': False,
 }
